@@ -1,0 +1,125 @@
+# DEFAULT
+spring:
+  profiles:
+    active: dev
+  mvc:
+    servlet:
+      path: /api/report/v1
+    log-request-details: false
+    log-resolved-exception: false
+  jpa:
+    hibernate.ddl-auto: none
+    show-sql: false
+    database: POSTGRESQL
+    open-in-view: false
+
+server:
+  port: 8080
+
+s3:
+  download-directory: "workingDirectory/"
+
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: never
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: health
+
+logging:
+  level:
+    root: warn
+    ex.org.project.reportservice:
+      ReportServiceApplication: info
+    org.springframework.web.servlet:
+      DispatcherServlet: trace
+      mvc.method.annotation:
+        HttpEntityMethodProcessor: trace
+
+google-analytics:
+  credentials: ${GACredentials}
+  property-id: ${GA1PropertyId}
+  user-analytics-fields:
+    - activeUsers
+    - screenPageViews
+    - sessions
+
+# RAS configuration
+ras:
+  url: ${rasurl}
+  client:
+    id: ${rasclientid}
+    secret: ${rasclientsecret}
+
+---
+# LOCAL
+
+spring:
+  jpa:
+    show-sql: true
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: jdbc:postgresql://dev-postgresql.cxew5pn6q5af.us-east-2.rds.amazonaws.com:5432/RADx_dev
+    username: ${db_username}
+    password: ${db_password}
+
+management:
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  pattern:
+    console: "[%boldMagenta(REPORT)] [%boldGreen(LOCAL)] %d{yyyy-MM-dd HH:mm:ss.SSS} %highlight([%5p]) --- [%cyan(%15.15t)] %-40.40logger{1.} %boldYellow(::) %m%n%wEx"
+
+---
+# DEV
+
+spring:
+  jpa:
+    show-sql: true
+  config:
+    import: aws-secretsmanager:application_dev
+    activate:
+      on-profile: dev
+
+management:
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  pattern:
+    console: "[%boldMagenta(REPORT)] [%boldGreen(DEV)] %d{yyyy-MM-dd HH:mm:ss.SSS} %highlight([%5p]) --- [%cyan(%15.15t)] %-40.40logger{1.} %boldYellow(::) %m%n%wEx"
+
+---
+# TEST
+
+spring:
+  config:
+    import: aws-secretsmanager:application_test
+    activate:
+      on-profile: test
+
+logging:
+  pattern:
+    console: "[REPORT] [TEST] %d{yyyy-MM-dd HH:mm:ss.SSS} [%5p] --- [%15.15t] %-40.40logger{1.} :: %m%n%wEx"
+
+---
+# PROD
+
+spring:
+  config:
+    import: aws-secretsmanager:application_prod
+    activate:
+      on-profile: prod
+
+logging:
+  pattern:
+    console: "[REPORT] [PROD] %d{yyyy-MM-dd HH:mm:ss.SSS} [%5p] --- [%15.15t] %-40.40logger{1.} :: %m%n%wEx"
