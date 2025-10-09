@@ -582,9 +582,7 @@ class MetricsServiceTests {
         List<String> columns = response1.columnNames();
 
         List<String> studyColumnNames = Arrays.asList("PHS", "Study Name",
-                "DCC", "Files", "Variables", "Harmonizable Variables (Tier 1)", "Harmonized Variables (Tier 1)",
-                "Harmonizable Variables (Tier 2)", "Harmonized Variables (Tier 2)",
-                "Total Harmonizable", "Total Harmonized");
+                "DCC", "Files", "Variables", "Harmonizable Variables (Tier 1)", "Harmonized Variables (Tier 1)");
         Assertions.assertTrue(columns.containsAll(studyColumnNames));
 
         StudyHarmonizationMetricsDTO dto = (StudyHarmonizationMetricsDTO) response1.dtos().get(0);
@@ -594,17 +592,10 @@ class MetricsServiceTests {
         Assertions.assertEquals(2, dto.getNumberOfFiles());
         Assertions.assertEquals(3, dto.getUniqueVariables());
         Assertions.assertEquals(4, dto.getUniqueHarmonizableVariablesT1());
-        Assertions.assertEquals(5, dto.getUniqueHarmonizableVariablesT2());
-        Assertions.assertEquals(BigInteger.valueOf(7L), dto.getHarmonizable());
-        Assertions.assertEquals(8, dto.getUniqueHarmonizedVariablesT1());
-        Assertions.assertEquals(9, dto.getUniqueHarmonizedVariablesT2());
-        Assertions.assertEquals(BigInteger.valueOf(11L), dto.getHarmonized());
 
         List<String> datafileColumnNames = Arrays.asList("File Name (Orig)",
                 "File Name (Trans)", "PHS", "Study Name", "DCC", "Variables (Orig)",
-                "Variables (Trans)", "Harmonizable Variables (Tier 1)", "Harmonized Variables (Tier 1)",
-                "Harmonizable Variables (Tier 2)", "Harmonized Variables (Tier 2)",
-                "Total Harmonizable", "Total Harmonized");
+                "Variables (Trans)", "Harmonizable Variables (Tier 1)", "Harmonized Variables (Tier 1)");
         List<DatafileHarmonizationMetricsDashboard> datafileList = new ArrayList<>();
         datafileList.add(getDatafileHarmonizationMetrics());
         when(datafileHarmonizationRepository.findByReportId(anyInt())).thenReturn(datafileList);
@@ -621,11 +612,7 @@ class MetricsServiceTests {
         Assertions.assertEquals(13, dto2.getOriginalUniqueVariables());
         Assertions.assertEquals(14, dto2.getTransformUniqueVariables());
         Assertions.assertEquals(15, dto2.getUniqueHarmonizableVariablesT1());
-        Assertions.assertEquals(16, dto2.getUniqueHarmonizableVariablesT2());
-        Assertions.assertEquals(BigInteger.valueOf(18L), dto2.getHarmonizable());
         Assertions.assertEquals(19, dto2.getUniqueHarmonizedVariablesT1());
-        Assertions.assertEquals(20, dto2.getUniqueHarmonizedVariablesT2());
-        Assertions.assertEquals(BigInteger.valueOf(22L), dto2.getHarmonized());
 
     }
 
@@ -638,18 +625,10 @@ class MetricsServiceTests {
         metrics.setOrigTransformPairsCount(2);
         metrics.setVariableCount(3);
         metrics.setHarmonizableTier1VariableCount(4);
-        metrics.setHarmonizableTier2VariableCount(5);
-        metrics.setHarmonizableTier3VariableCount(6);
-        metrics.setHarmonizableTotal(7);
         metrics.setHarmonizedTier1VariableCount(8);
-        metrics.setHarmonizedTier2VariableCount(9);
-        metrics.setHarmonizedTier3VariableCount(10);
-        metrics.setHarmonizedTotal(11);
         metrics.setVariables("Variables");
         metrics.setHarmonizableTier1Variables("Tier 1");
         metrics.setHarmonizedTier1Variables("Tier 1");
-        metrics.setHarmonizableTier2Variables("Tier 2");
-        metrics.setHarmonizedTier2Variables("Tier 2");
         return metrics;
     }
 
@@ -663,19 +642,11 @@ class MetricsServiceTests {
         metrics.setOrigVariableCount(13);
         metrics.setTransformVariableCount(14);
         metrics.setHarmonizableTier1VariableCount(15);
-        metrics.setHarmonizableTier2VariableCount(16);
-        metrics.setHarmonizableTier3VariableCount(17);
-        metrics.setHarmonizableTotal(18);
         metrics.setHarmonizedTier1VariableCount(19);
-        metrics.setHarmonizedTier2VariableCount(20);
-        metrics.setHarmonizedTier3VariableCount(21);
-        metrics.setHarmonizedTotal(22);
         metrics.setOrigVariables("Orig Variables");
         metrics.setTransformVariables("Transform Variables");
         metrics.setHarmonizableTier1Variables("Tier 1");
         metrics.setHarmonizedTier1Variables("Tier 1");
-        metrics.setHarmonizableTier2Variables("Tier 2");
-        metrics.setHarmonizedTier2Variables("Tier 2");
         return metrics;
     }
 
@@ -712,15 +683,9 @@ class MetricsServiceTests {
         responseString += "\"" + metric.getVariableCount() + "\",";
         responseString += "\"" + metric.getHarmonizableTier1VariableCount() + "\",";
         responseString += "\"" + metric.getHarmonizedTier1VariableCount() + "\",";
-        responseString += "\"" + metric.getHarmonizableTier2VariableCount() + "\",";
-        responseString += "\"" + metric.getHarmonizedTier2VariableCount() + "\",";
-        responseString += "\"" + metric.getHarmonizableTotal() + "\",";
-        responseString += "\"" + metric.getHarmonizedTotal() + "\",";
         responseString += "\"" + metric.getVariables() + "\",";
         responseString += "\"" + metric.getHarmonizableTier1Variables() + "\",";
         responseString += "\"" + metric.getHarmonizedTier1Variables() + "\",";
-        responseString += "\"" + metric.getHarmonizableTier2Variables() + "\",";
-        responseString += "\"" + metric.getHarmonizedTier2Variables() + "\"";
         Assertions.assertEquals(responseString + "\n", response.getContentAsString());
 
 
@@ -735,9 +700,8 @@ class MetricsServiceTests {
         List<String> dataColumnNames = Arrays.asList("FILE NAME (ORIG)",
                 "FILE NAME (TRANS)", "PHS", "STUDY NAME", "DCC", "VARIABLES COUNT (ORIG)",
                 "VARIABLES COUNT (TRANS)", "HARMONIZABLE VARIABLES COUNT (TIER 1)", "HARMONIZED VARIABLES COUNT (TIER 1)",
-                "HARMONIZABLE VARIABLES COUNT (TIER 2)", "HARMONIZED VARIABLES COUNT (TIER 2)", "TOTAL HARMONIZABLE",
-                "TOTAL HARMONIZED", "ORIGINAL VARIABLES", "TRANSFORM VARIABLES", "HARMONIZABLE VARIABLES (TIER 1)",
-                "HARMONIZED VARIABLES (TIER 1)", "HARMONIZABLE VARIABLES (TIER 2)", "HARMONIZED VARIABLES (TIER 2)");
+                "ORIGINAL VARIABLES", "TRANSFORM VARIABLES", "HARMONIZABLE VARIABLES (TIER 1)",
+                "HARMONIZED VARIABLES (TIER 1)");
 
         String responseString2 = "";
         for (String s : dataColumnNames){
@@ -755,16 +719,10 @@ class MetricsServiceTests {
         responseString2 += "\"" + metrics2.getTransformVariableCount() + "\",";
         responseString2 += "\"" + metrics2.getHarmonizableTier1VariableCount() + "\",";
         responseString2 += "\"" + metrics2.getHarmonizedTier1VariableCount() + "\",";
-        responseString2 += "\"" + metrics2.getHarmonizableTier2VariableCount() + "\",";
-        responseString2 += "\"" + metrics2.getHarmonizedTier2VariableCount() + "\",";
-        responseString2 += "\"" + metrics2.getHarmonizableTotal() + "\",";
-        responseString2 += "\"" + metrics2.getHarmonizedTotal() + "\",";
         responseString2 += "\"" + metrics2.getOrigVariables() + "\",";
         responseString2 += "\"" + metrics2.getTransformVariables() + "\",";
         responseString2 += "\"" + metrics2.getHarmonizableTier1Variables() + "\",";
         responseString2 += "\"" + metrics2.getHarmonizedTier1Variables() + "\",";
-        responseString2 += "\"" + metrics2.getHarmonizableTier2Variables() + "\",";
-        responseString2 += "\"" + metrics2.getHarmonizedTier2Variables() + "\"";
         Assertions.assertEquals(responseString2 + "\n", response1.getContentAsString());
 
         Assertions.assertThrows(BadDataException.class, () -> reportService.getHarmonizationMetricsCSV("aggby", response, 1));

@@ -31,11 +31,7 @@ public class MetricsColumns {
     public static final List<String> STUDY_HARMONIZATION_COLUMN_NAMES = Arrays.asList("PHS", "Study Name", "Center",
                                                                                       "Files", "Variables",
                                                                                       "Harmonizable Variables (Tier 1)",
-                                                                                      "Harmonized Variables (Tier 1)",
-                                                                                      "Harmonizable Variables (Tier 2)",
-                                                                                      "Harmonized Variables (Tier 2)",
-                                                                                      "Total Harmonizable",
-                                                                                      "Total Harmonized");
+                                                                                      "Harmonized Variables (Tier 1)");
 
     public static final List<String> DATASET_HARMONIZATION_COLUMN_NAMES = Arrays.asList("File Name (Orig)",
                                                                                         "File Name (Trans)", "PHS",
@@ -43,25 +39,15 @@ public class MetricsColumns {
                                                                                         "Variables (Orig)",
                                                                                         "Variables (Trans)",
                                                                                         "Harmonizable Variables (Tier 1)",
-                                                                                        "Harmonized Variables (Tier 1)",
-                                                                                        "Harmonizable Variables (Tier 2)",
-                                                                                        "Harmonized Variables (Tier 2)",
-                                                                                        "Total Harmonizable",
-                                                                                        "Total Harmonized");
+                                                                                        "Harmonized Variables (Tier 1)");
 
     public static final List<String> STUDY_HARMONIZATION_CSV_COLUMN_NAMES = Arrays.asList("PHS", "Study Name", "Center",
                                                                                           "Files", "Variables Count",
                                                                                           "Harmonizable Variables Count (Tier 1)",
                                                                                           "Harmonized Variables Count (Tier 1)",
-                                                                                          "Harmonizable Variables Count (Tier 2)",
-                                                                                          "Harmonized Variables Count (Tier 2)",
-                                                                                          "Total Harmonizable",
-                                                                                          "Total Harmonized",
                                                                                           "Variables",
                                                                                           "Harmonizable Variables (Tier 1)",
-                                                                                          "Harmonized Variables (Tier 1)",
-                                                                                          "Harmonizable Variables (Tier 2)",
-                                                                                          "Harmonized Variables (Tier 2)");
+                                                                                          "Harmonized Variables (Tier 1)");
 
     public static final List<String> DATASET_HARMONIZATION_CSV_COLUMN_NAMES = Arrays.asList("File Name (Orig)",
                                                                                             "File Name (Trans)", "PHS",
@@ -70,16 +56,10 @@ public class MetricsColumns {
                                                                                             "Variables Count (Trans)",
                                                                                             "Harmonizable Variables Count (Tier 1)",
                                                                                             "Harmonized Variables Count (Tier 1)",
-                                                                                            "Harmonizable Variables Count (Tier 2)",
-                                                                                            "Harmonized Variables Count (Tier 2)",
-                                                                                            "Total Harmonizable",
-                                                                                            "Total Harmonized",
                                                                                             "Original Variables",
                                                                                             "Transform Variables",
                                                                                             "Harmonizable Variables (Tier 1)",
-                                                                                            "Harmonized Variables (Tier 1)",
-                                                                                            "Harmonizable Variables (Tier 2)",
-                                                                                            "Harmonized Variables (Tier 2)");
+                                                                                            "Harmonized Variables (Tier 1)");
 
     public static final List<String> WEEKLY_METRICS_COLUMN_NAMES = Arrays.asList("Center", "Study PHS",
                                                                                  "Study Title", "Study Status",

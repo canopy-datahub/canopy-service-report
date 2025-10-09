@@ -12,14 +12,11 @@ public interface StudyHarmonizationRepository extends JpaRepository<StudyHarmoni
 
     @Query(value = "select shm.id, shm.report_id, shm.study_phs, shm.center, " +
             "shm.orig_transform_pairs_count, shm.variable_count, " +
-            "shm.harmonizable_tier_1_variable_count, shm.harmonizable_tier_2_variable_count, " +
-            "shm.harmonizable_tier_3_variable_count, shm.harmonizable_total, " +
-            "shm.harmonized_tier_1_variable_count, shm.harmonized_tier_2_variable_count, " +
-            "shm.harmonized_tier_3_variable_count, shm.harmonized_total, " +
+            "shm.harmonizable_tier_1_variable_count," +
+            "shm.harmonized_tier_1_variable_count, " +
             "shm.variables, shm.harmonizable_tier_1_variables, " +
-            "shm.harmonizable_tier_2_variables, shm.harmonizable_tier_3_variables, " +
-            "shm.harmonized_tier_1_variables, shm.harmonized_tier_2_variables, " +
-            "shm.harmonized_tier_3_variables, vs.title as study_name " +
+            "shm.harmonized_tier_1_variables, " +
+            "vs.title as study_name " +
             "from public.study_harmonization_metrics shm left join public.view_study vs ON shm.study_phs = vs.phs " +
             "where shm.report_id = :reportId", nativeQuery = true)
     List<StudyHarmonizationMetricsDashboard> findByReportId(@Param("reportId") int reportId);

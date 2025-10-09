@@ -10,8 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonPropertyOrder({ "File Name (Orig)", "File Name (Trans)", "PHS", "Study Name", "Center", "Variables (Orig)",
-        "Variables (Trans)",  "Harmonizable Variables (Tier 1)", "Harmonized Variables (Tier 1)",
-        "Harmonizable Variables (Tier 2)", "Harmonized Variables (Tier 2)", "Total Harmonizable", "Total Harmonized"})
+        "Variables (Trans)",  "Harmonizable Variables (Tier 1)", "Harmonized Variables (Tier 1)"})
 public class DatafileHarmonizationMetricsDTO extends HarmonizationMetricsDTO {
     @JsonProperty("File Name (Orig)")
     @CsvBindByName(column = "File Name (Orig)")
