@@ -45,7 +45,7 @@ import static ex.org.project.reportservice.util.MetricsColumns.*;
 public class MetricsService {
 
     // "Agg By" options
-    public static final String DCC = "dcc";
+    public static final String CENTER = "center";
     public static final String STUDY = "study";
     public static final String DATASET = "dataset";
 
@@ -60,7 +60,7 @@ public class MetricsService {
     private final WeeklyHubContentRepository weeklyHubContentRepository;
     private final GoogleAnalyticsService googleAnalyticsService;
     private final UserActivitiesMapper userActivitiesMapper;
-    private final HubContentMetricsDccMapper hubContentMetricsDccMapper;
+    private final HubContentMetricsCenterMapper hubContentMetricsCenterMapper;
     private final HubContentMetricsStudyMapper hubContentMetricsStudyMapper;
     private final MetricsReportMapper metricsReportMapper;
     private final SubmissionActivityMapper submissionActivityMapper;
@@ -88,10 +88,10 @@ public class MetricsService {
      */
     public HubContentAggMetricsResponse createReport(String aggBy, Integer reportId) {
 
-        if(aggBy.equalsIgnoreCase(DCC)) {
-            List<DccDto> aggDtos = getHubMetricsForDcc(reportId);
+        if(aggBy.equalsIgnoreCase(CENTER)) {
+            List<CenterDto> aggDtos = getHubMetricsForCenter(reportId);
             // Build and return the HubContentAggMetricsDto object for aggBy report
-            return HubContentAggMetricsResponse.builder().columnNames(DCC_COLUMN_NAMES).aggDtos(aggDtos).build();
+            return HubContentAggMetricsResponse.builder().columnNames(CENTER_COLUMN_NAMES).aggDtos(aggDtos).build();
         }
         else if(aggBy.equalsIgnoreCase(STUDY)) {
             List<StudyPhsDto> aggDtos = getHubMetricsForStudy(reportId);
@@ -106,14 +106,14 @@ public class MetricsService {
     /**
      * Helper method for calling the DB and mapping the DTOs for the hub metrics report when aggBy is DCC.
      */
-    public List<DccDto> getHubMetricsForDcc(Integer reportId) {
+    public List<CenterDto> getHubMetricsForCenter(Integer reportId) {
         // Retrieve aggregate metrics for aggBy report from the repository
-        List<HubContentMetrics> aggregateMetrics = hubContentMetricsRepository.findTotalFileSizeByDccAndReportId(
+        List<HubContentMetrics> aggregateMetrics = hubContentMetricsRepository.findTotalFileSizeByCenterAndReportId(
                 reportId);
-        // Map the aggregate metrics to DccDto objects
-        List<DccDto> aggDtos = hubContentMetricsDccMapper.toDto(aggregateMetrics);
+        // Map the aggregate metrics to CenterDto objects
+        List<CenterDto> aggDtos = hubContentMetricsCenterMapper.toDto(aggregateMetrics);
         // Add the total metrics for aggBy report
-        aggDtos.add(aggTotalDcc(aggregateMetrics));
+        aggDtos.add(aggTotalCenter(aggregateMetrics));
         return aggDtos;
     }
 
@@ -122,7 +122,7 @@ public class MetricsService {
      */
     public List<StudyPhsDto> getHubMetricsForStudy(Integer reportId) {
         List<HubContentMetrics> aggregateMetrics = hubContentMetricsRepository.findByStudyStatusAndHasDataFileAndReportId(
-                "approved", true, reportId);
+                "Approved", true, reportId);
         List<StudyPhsDto> aggDtos = hubContentMetricsStudyMapper.toDto(aggregateMetrics);
         aggDtos.add(aggTotalStudy(aggregateMetrics));
         return aggDtos;
@@ -135,9 +135,9 @@ public class MetricsService {
      * @param aggregateMetrics The list of HubContentMetrics representing the aggregate metrics.
      * @return A DccDto object with the total metrics for all DCCs.
      */
-    public static DccDto aggTotalDcc(List<HubContentMetrics> aggregateMetrics) {
-        return DccDto.builder()
-                .dcc("Total")
+    public static CenterDto aggTotalCenter(List<HubContentMetrics> aggregateMetrics) {
+        return CenterDto.builder()
+                .center("Total")
                 .totalStudies(aggregateMetrics.stream().mapToInt(HubContentMetrics::getCountStudyPhs).sum())
                 .totalFileSize(aggregateMetrics.stream()
                                        .map(HubContentMetrics::getTotalFileSize)
@@ -326,11 +326,11 @@ public class MetricsService {
      */
     public void getHubContentReport(HttpServletResponse response, String aggBy, Integer reportId) {
         String fileName = "Hub_Content_Metrics.csv";
-        if(aggBy.equalsIgnoreCase(DCC)) {
-            List<DccDto> aggDtos = getHubMetricsForDcc(reportId);
-            String[] columnNames = DCC_COLUMN_NAMES.stream().map(String::toUpperCase).toArray(String[]::new);
+        if(aggBy.equalsIgnoreCase(CENTER)) {
+            List<CenterDto> aggDtos = getHubMetricsForCenter(reportId);
+            String[] columnNames = CENTER_COLUMN_NAMES.stream().map(String::toUpperCase).toArray(String[]::new);
             // Build and return the HubContentAggMetricsDto object for aggBy report
-            getCSVReport(response, aggDtos, fileName, DccDto.class, columnNames);
+            getCSVReport(response, aggDtos, fileName, CenterDto.class, columnNames);
         }
         else if(aggBy.equalsIgnoreCase(STUDY)) {
             List<StudyPhsDto> aggDtos = getHubMetricsForStudy(reportId);
@@ -397,7 +397,7 @@ public class MetricsService {
         LocalDateTime startDateTime = LocalDate.parse(startDate).atStartOfDay();
         LocalDateTime endDateTime = LocalDate.parse(endDate).atTime(23, 59, 59);
 
-        if(aggBy.equals(DCC)) {
+        if(aggBy.equals(CENTER)) {
             return SubmissionActivitiesMetricsResponse.builder()
                     .columnNames(SUBMISSION_DCC_COLUMN_NAMES)
                     .dtos(getDccSubmissionActivitiesMetricsDtos(startDateTime, endDateTime))
@@ -421,7 +421,7 @@ public class MetricsService {
                                                String endDate) {
         LocalDateTime startDateTime = LocalDate.parse(startDate).atStartOfDay();
         LocalDateTime endDateTime = LocalDate.parse(endDate).atTime(23, 59, 59);
-        if(aggBy.equals(DCC)) {
+        if(aggBy.equals(CENTER)) {
             List<SubmissionActivitiesMetricsDccDto> dtos = getDccSubmissionActivitiesMetricsDtos(startDateTime,
                                                                                                  endDateTime);
             getCSVReport(response, dtos, "Submission_Activities_Metrics.csv", SubmissionActivitiesMetricsDccDto.class,
@@ -540,7 +540,7 @@ public class MetricsService {
     public void generateStudyByFileCSVReport(HttpServletResponse response) {
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         String currentDateTime = dateFormatter.format(new Date());
-        List<StudyByFileReport> studyByFileReportContent = weeklyHubContentRepository.findAllByOrderByDccAsc();
+        List<StudyByFileReport> studyByFileReportContent = weeklyHubContentRepository.findAllByOrderByCenterAsc();
         String fileName = currentDateTime + "-DataHub-Weekly-Metrics.csv";
         String[] columnNames = WEEKLY_METRICS_COLUMN_NAMES.stream().map(String::toUpperCase).toArray(String[]::new);
 
@@ -558,7 +558,7 @@ public class MetricsService {
      */
     public void uploadWeeklyReportToS3(){
         //get current hub content
-        List<StudyByFileReport> studyByFileReportContent = weeklyHubContentRepository.findAllByOrderByDccAsc();
+        List<StudyByFileReport> studyByFileReportContent = weeklyHubContentRepository.findAllByOrderByCenterAsc();
 
         String[] columnNames = WEEKLY_METRICS_COLUMN_NAMES.stream().map(String::toUpperCase).toArray(String[]::new);
         StringWriter writer = new StringWriter();

@@ -20,7 +20,7 @@ public class ReportServiceController {
 
 	private final MetricsService metricsService;
 	private final UserPopulationMetricsService userPopulationMetricsService;
-//	private final HarmonizationMetricsCalculator harmonizationMetricsCalculator;
+	private final ex.org.project.reportservice.service.HarmonizationMetricsCalculator harmonizationMetricsCalculator;
 	private final UserAuthService authService;
 	private final AWSStorageService awsStorageService;
 
@@ -142,10 +142,18 @@ public class ReportServiceController {
 
 
 	//Leaving here in case we need to manually run the job locally
-//	@PostMapping("/runHarmonizationMetricsJob")
-//	public ResponseEntity<Void> runHarmonizationMetricsJob(@CookieValue("chocolateChip") String sessionId) {
-//		authService.checkAuth(sessionId, List.of(AccessRole.OFFICER));
-//		harmonizationMetricsCalculator.generateHarmonizationMetricsReport();
-//		return ResponseEntity.ok().build();
-//	}
+	@PostMapping("/runHarmonizationMetricsJob")
+	public ResponseEntity<Integer> runHarmonizationMetricsJob(@CookieValue(value="chocolateChip", required = false) String sessionId) {
+		authService.checkAuth(sessionId, List.of(AccessRole.OFFICER));
+		Integer reportId = harmonizationMetricsCalculator.generateHarmonizationMetricsReport();
+		return ResponseEntity.ok(reportId);
+	}
+
+	//Manual trigger for weekly file report upload
+	@PostMapping("/uploadWeeklyFileReport")
+	public ResponseEntity<String> uploadWeeklyFileReport(@CookieValue(value="chocolateChip", required = false) String sessionId) {
+		authService.checkAuth(sessionId, List.of(AccessRole.OFFICER));
+		metricsService.uploadWeeklyReportToS3();
+		return ResponseEntity.ok("Weekly file report uploaded successfully");
+	}
 }

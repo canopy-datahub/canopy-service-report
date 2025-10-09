@@ -21,10 +21,10 @@ public class StudyByFileReport {
     @Column(name = "id")
     private Integer fileId;
 
-    @CsvBindByName(column = "Study Program")
+    @CsvBindByName(column = "Center")
     @CsvBindByPosition(position = 0)
-    @Column(name = "dcc")
-    private String dcc;
+    @Column(name = "center")
+    private String center;
 
     @CsvBindByName(column = "Study PHS")
     @CsvBindByPosition(position = 1)

@@ -22,8 +22,8 @@ public class SubmissionActivity {
     @Column(name = "study_id")
     private Integer studyId;
 
-    @Column(name = "dcc")
-    private String dcc;
+    @Column(name = "center")
+    private String center;
 
     @Column(name = "study_phs")
     private String studyPhs;

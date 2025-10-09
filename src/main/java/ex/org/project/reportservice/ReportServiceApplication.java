@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 @ComponentScan(basePackages = {
     "edu.stanford.bmir.radx.harmonization.metrics",
     "gov.nih.radx.reportservice",
-    "ex.org.project.reportservice.security"
+    "ex.org.project.reportservice"
 })
 public class ReportServiceApplication {
 

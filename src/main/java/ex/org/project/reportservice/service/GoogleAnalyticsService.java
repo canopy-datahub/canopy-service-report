@@ -7,6 +7,7 @@ import ex.org.project.reportservice.model.UserActivitiesMetrics;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -16,11 +17,28 @@ import java.util.stream.IntStream;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class GoogleAnalyticsService {
 
     private final BetaAnalyticsDataClient analyticsDataClient;
     private final GoogleAnalyticsConfig googleAnalyticsConfig;
+    
+    @Autowired
+    public GoogleAnalyticsService(
+            @Autowired(required = false) BetaAnalyticsDataClient analyticsDataClient,
+            GoogleAnalyticsConfig googleAnalyticsConfig) {
+        this.analyticsDataClient = analyticsDataClient;
+        this.googleAnalyticsConfig = googleAnalyticsConfig;
+        
+        if (analyticsDataClient == null) {
+            log.warn("Google Analytics client is not available. GA features will return empty data.");
+        } else {
+            log.info("Google Analytics client initialized successfully.");
+        }
+    }
+    
+    private boolean isGoogleAnalyticsEnabled() {
+        return analyticsDataClient != null;
+    }
 
     /**
      * Runs a metric report and an event report and then consolidates them into a single report
@@ -30,6 +48,18 @@ public class GoogleAnalyticsService {
      * @return UserActivitiesMetrics
      */
     public UserActivitiesMetrics getUserActivitiesReport(String dimension, String startDate, String endDate){
+        if (!isGoogleAnalyticsEnabled()) {
+            log.warn("Google Analytics is not configured. Returning empty metrics.");
+            return UserActivitiesMetrics.builder()
+                    .dimension(formatLabel(dimension))
+                    .startDate(startDate)
+                    .endDate(endDate)
+                    .rowCount(0)
+                    .headers(List.of(formatLabel(dimension)))
+                    .metrics(new HashMap<>())
+                    .build();
+        }
+        
         UserActivitiesMetrics metricReport = runMetricReport(dimension, startDate, endDate);
         UserActivitiesMetrics eventReport = runEventReport(dimension, startDate, endDate);
         //consolidate reports into metricReport

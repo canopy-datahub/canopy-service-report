@@ -16,9 +16,10 @@ public class SecurityConfig {
             .requestMatchers(EndpointRequest.to("shutdown")).authenticated()
             .anyRequest().permitAll()
         )
-        .csrf(csrf -> csrf
-            .ignoringRequestMatchers(EndpointRequest.to("shutdown"))
-        )
+        // .csrf(csrf -> csrf
+        //     .ignoringRequestMatchers(EndpointRequest.to("shutdown"))
+        // )
+        .csrf(csrf -> csrf.disable())  // Disable CSRF for development
         .httpBasic();  // must be last in this chain
 
     return http.build();

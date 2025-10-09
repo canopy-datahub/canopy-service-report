@@ -22,9 +22,9 @@ public class HarmonizationMetricsDTO {
     @CsvBindByName(column = "Study Name")
     private String studyName;
 
-    @JsonProperty("DCC")
-    @CsvBindByName(column = "DCC")
-    private String dcc;
+    @JsonProperty("Center")
+    @CsvBindByName(column = "Center")
+    private String center;
 
     @JsonProperty("Harmonizable Variables (Tier 1)")
     @CsvBindByName(column = "Harmonizable Variables Count (Tier 1)")

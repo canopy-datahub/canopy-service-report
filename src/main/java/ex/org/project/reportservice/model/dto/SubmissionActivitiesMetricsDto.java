@@ -9,9 +9,9 @@ import lombok.Setter;
 @Setter
 public class SubmissionActivitiesMetricsDto {
 
-    @JsonProperty("DCC")
-    @CsvBindByName(column = "DCC")
-    protected String dcc;
+    @JsonProperty("Center")
+    @CsvBindByName(column = "Center")
+    protected String center;
     @JsonProperty("Data Files Submitted")
     @CsvBindByName(column = "Data Files Submitted")
     protected Integer dataFilesSubmitted;

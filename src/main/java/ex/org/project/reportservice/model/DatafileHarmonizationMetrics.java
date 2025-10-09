@@ -29,8 +29,8 @@ public class DatafileHarmonizationMetrics {
     @Column(name = "study_phs")
     private String studyPhs;
 
-    @Column(name = "dcc")
-    private String dcc;
+    @Column(name = "center")
+    private String center;
 
     @Column(name = "orig_variable_count")
     private Integer origVariableCount;
@@ -91,7 +91,7 @@ public class DatafileHarmonizationMetrics {
         this.originalFileName = pairMetrics.origFileName().orElse(null);
         this.transformFileName = pairMetrics.transformFileName().orElse(null);
         this.studyPhs = pairMetrics.studyId().value();
-        this.dcc = HarmonizationCalculatorUtil.normalizeCapitalizedProgramName(pairMetrics.programId().name());
+        this.center = pairMetrics.programId().name();
         this.origVariableCount = pairMetrics.nDataElementsOrig();
         this.transformVariableCount = pairMetrics.nDataElementsTransform();
         this.harmonizableTier1VariableCount = pairMetrics.nHarmonizableDataElementsTier1();

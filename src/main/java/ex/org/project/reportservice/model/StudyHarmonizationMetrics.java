@@ -23,8 +23,8 @@ public class StudyHarmonizationMetrics {
     @Column(name = "study_phs")
     private String studyPhs;
 
-    @Column(name = "dcc")
-    private String dcc;
+    @Column(name = "center")
+    private String center;
 
     @Column(name = "orig_transform_pairs_count")
     private Integer origTransformPairsCount;
@@ -80,7 +80,7 @@ public class StudyHarmonizationMetrics {
     public StudyHarmonizationMetrics(Integer reportId, StudyMetrics studyMetrics){
         this.reportId = reportId;
         this.studyPhs = studyMetrics.studyId().value();
-        this.dcc = HarmonizationCalculatorUtil.normalizeCapitalizedProgramName(studyMetrics.programId().name());
+        this.center = studyMetrics.programId().name();
         this.origTransformPairsCount = studyMetrics.nOrigTransformFilePairs();
         this.variableCount = studyMetrics.nUniqueDataElements();
         this.harmonizableTier1VariableCount = studyMetrics.nUniqueHarmonizableDataElementsTier1();

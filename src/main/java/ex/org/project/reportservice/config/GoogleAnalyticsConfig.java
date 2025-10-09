@@ -8,6 +8,8 @@ import ex.org.project.reportservice.exceptions.AnalyticsClientException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +30,13 @@ public class GoogleAnalyticsConfig {
 
     @Bean
     public BetaAnalyticsDataClient getBetaAnalyticsDataClient() {
+        // Check if credentials are actually provided (not empty)
+        if (credentials == null || credentials.trim().isEmpty()) {
+            log.warn("Google Analytics credentials not configured. GA features will be disabled.");
+            return null;
+        }
+        
+        log.info("Initializing Google Analytics client with provided credentials");
         try {
             InputStream credentialsStream = new ByteArrayInputStream(credentials.getBytes());
             var credentialsProvider = FixedCredentialsProvider
@@ -39,10 +48,10 @@ public class GoogleAnalyticsConfig {
                     .build();
             return BetaAnalyticsDataClient.create(settings);
         } catch (IOException e) {
-            String errorMessage = "Error initializing Google Analytics Client.";
+            String errorMessage = "Error initializing Google Analytics Client: " + e.getMessage();
             log.error(errorMessage, e);
-            throw new AnalyticsClientException(errorMessage);
+            log.warn("Google Analytics will be disabled due to initialization error.");
+            return null;
         }
     }
-
 }

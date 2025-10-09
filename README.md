@@ -26,6 +26,12 @@ There are a few environment variable that need to be set:
     * This is your Google Analytics service account key json file as a String
 * GA1PropertyId
     * This is the 1.0 Data Hub Google Analytics property id
+* ResourceBucket
+    * S3 bucket name for storing reports
+* WeeklyReportPath
+    * Path to the weekly report files in the resource bucket
+* WeeklyReportFileName
+    * Name of the weekly report file to be processed
 
 I typically just set these via Java environment variables in IntelliJ.
 

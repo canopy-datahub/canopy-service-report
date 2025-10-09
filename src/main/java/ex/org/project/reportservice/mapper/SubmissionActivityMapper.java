@@ -12,7 +12,7 @@ import java.util.Map;
 @Mapper(componentModel = "spring")
 public interface SubmissionActivityMapper {
 
-    @Mapping(target = "dcc", source = "dcc", qualifiedByName = "stringMapper")
+    @Mapping(target = "center", source = "center", qualifiedByName = "stringMapper")
     @Mapping(target = "studiesInitiated", source = "studies_initiated", qualifiedByName = "longMapper")
     @Mapping(target = "studiesPublished", source = "studies_published", qualifiedByName = "longMapper")
     @Mapping(target = "dataFilesSubmitted", source = "data_files_submitted", qualifiedByName = "longMapper")
@@ -23,7 +23,7 @@ public interface SubmissionActivityMapper {
     List<SubmissionActivitiesMetricsDccDto> mapToDccDtoList(List<Map<String, Object>> maps);
 
 
-    @Mapping(target = "dcc", source = "dcc", qualifiedByName = "stringMapper")
+    @Mapping(target = "center", source = "center", qualifiedByName = "stringMapper")
     @Mapping(target = "dataFilesSubmitted", source = "data_files_submitted", qualifiedByName = "longMapper")
     @Mapping(target = "dataFilesApproved", source = "data_files_approved", qualifiedByName = "longMapper")
     @Mapping(target = "dataFilesRejected", source = "data_files_rejected", qualifiedByName = "longMapper")
