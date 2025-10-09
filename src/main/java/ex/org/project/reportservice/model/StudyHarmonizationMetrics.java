@@ -80,7 +80,7 @@ public class StudyHarmonizationMetrics {
     public StudyHarmonizationMetrics(Integer reportId, StudyMetrics studyMetrics){
         this.reportId = reportId;
         this.studyPhs = studyMetrics.studyId().value();
-        this.center = studyMetrics.programId().name();
+        this.center = studyMetrics.programId().toString();
         this.origTransformPairsCount = studyMetrics.nOrigTransformFilePairs();
         this.variableCount = studyMetrics.nUniqueDataElements();
         this.harmonizableTier1VariableCount = studyMetrics.nUniqueHarmonizableDataElementsTier1();
