@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.factory.Mappers;
-import org.mockito.*;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockHttpServletResponse;
 
@@ -22,8 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static ex.org.project.reportservice.model.populationMetrics.UserPopulationMetricsColumns.*;
-import static ex.org.project.reportservice.model.populationMetrics.UserPopulationMetricsColumns.LAST_LOGIN;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class UserPopulationMetricsServiceTests {

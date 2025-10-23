@@ -6,39 +6,30 @@ import ex.org.project.reportservice.mapper.*;
 import ex.org.project.reportservice.model.*;
 import ex.org.project.reportservice.model.dto.*;
 import ex.org.project.reportservice.repositories.*;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
-
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.Month;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.factory.Mappers;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-import ex.org.project.reportservice.model.dto.DccDto;
-import ex.org.project.reportservice.model.dto.HubContentAggMetricsResponse;
-import ex.org.project.reportservice.model.dto.StudyPhsDto;
-import ex.org.project.reportservice.model.dto.UserActivitiesDto;
 
 
 @ExtendWith(SpringExtension.class)

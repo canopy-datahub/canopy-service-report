@@ -1,7 +1,7 @@
 package ex.org.project.reportservice.mapper;
 
-import ex.org.project.reportservice.model.dto.UserMetricsEmailDto;
 import ex.org.project.reportservice.model.ViewUserPopulation;
+import ex.org.project.reportservice.model.dto.UserMetricsEmailDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;

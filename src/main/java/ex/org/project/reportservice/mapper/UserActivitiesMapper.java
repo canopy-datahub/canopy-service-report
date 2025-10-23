@@ -1,7 +1,7 @@
 package ex.org.project.reportservice.mapper;
 
-import ex.org.project.reportservice.model.dto.UserActivitiesDto;
 import ex.org.project.reportservice.model.UserActivitiesMetrics;
+import ex.org.project.reportservice.model.dto.UserActivitiesDto;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

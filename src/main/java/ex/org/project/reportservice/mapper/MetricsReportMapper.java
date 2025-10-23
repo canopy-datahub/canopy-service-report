@@ -1,12 +1,11 @@
 package ex.org.project.reportservice.mapper;
 
-import java.util.List;
-
+import ex.org.project.reportservice.model.MetricsReport;
 import ex.org.project.reportservice.model.dto.ReportDateDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import ex.org.project.reportservice.model.MetricsReport;
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface MetricsReportMapper {

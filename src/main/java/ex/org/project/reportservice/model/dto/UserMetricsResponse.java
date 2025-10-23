@@ -1,6 +1,7 @@
 package ex.org.project.reportservice.model.dto;
 
 import lombok.Builder;
+
 import java.util.List;
 
 @Builder

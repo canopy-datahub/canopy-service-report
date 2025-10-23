@@ -3,7 +3,10 @@ package ex.org.project.reportservice.model;
 import edu.stanford.bmir.radx.harmonization.metrics.lib.StudyMetrics;
 import ex.org.project.reportservice.util.HarmonizationCalculatorUtil;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter

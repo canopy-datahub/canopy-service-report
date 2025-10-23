@@ -1,7 +1,7 @@
 package ex.org.project.reportservice.mapper;
 
-import ex.org.project.reportservice.model.dto.DccDto;
 import ex.org.project.reportservice.model.HubContentMetrics;
+import ex.org.project.reportservice.model.dto.DccDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;

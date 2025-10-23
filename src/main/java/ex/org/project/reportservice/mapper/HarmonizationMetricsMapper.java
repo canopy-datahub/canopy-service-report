@@ -1,9 +1,9 @@
 package ex.org.project.reportservice.mapper;
 
-import ex.org.project.reportservice.model.dto.DatafileHarmonizationMetricsDTO;
-import ex.org.project.reportservice.model.dto.StudyHarmonizationMetricsDTO;
 import ex.org.project.reportservice.model.DatafileHarmonizationMetricsDashboard;
 import ex.org.project.reportservice.model.StudyHarmonizationMetricsDashboard;
+import ex.org.project.reportservice.model.dto.DatafileHarmonizationMetricsDTO;
+import ex.org.project.reportservice.model.dto.StudyHarmonizationMetricsDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

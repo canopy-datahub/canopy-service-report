@@ -1,7 +1,9 @@
 package ex.org.project.reportservice.model;
 
 import jakarta.persistence.Column;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
