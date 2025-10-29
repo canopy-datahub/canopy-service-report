@@ -21,44 +21,21 @@ public class HarmonizationMetricsDTO {
     @CsvBindByName(column = "Study Name")
     private String studyName;
 
-    @JsonProperty("DCC")
-    @CsvBindByName(column = "DCC")
-    private String dcc;
+    @JsonProperty("Center")
+    @CsvBindByName(column = "Center")
+    private String center;
 
     @JsonProperty("Harmonizable Variables (Tier 1)")
     @CsvBindByName(column = "Harmonizable Variables Count (Tier 1)")
     private Integer uniqueHarmonizableVariablesT1;
 
-    @JsonProperty("Harmonizable Variables (Tier 2)")
-    @CsvBindByName(column = "Harmonizable Variables Count (Tier 2)")
-    private Integer uniqueHarmonizableVariablesT2;
-
-    @JsonProperty("Total Harmonizable")
-    @CsvBindByName(column = "Total Harmonizable")
-    private BigInteger harmonizable;
-
     @JsonProperty("Harmonized Variables (Tier 1)")
     @CsvBindByName(column = "Harmonized Variables Count (Tier 1)")
     private Integer uniqueHarmonizedVariablesT1;
 
-    @JsonProperty("Harmonized Variables (Tier 2)")
-    @CsvBindByName(column = "Harmonized Variables Count (Tier 2)")
-    private Integer uniqueHarmonizedVariablesT2;
-
-    @JsonProperty("Total Harmonized")
-    @CsvBindByName(column = "Total Harmonized")
-    private BigInteger harmonized;
-
     @CsvBindByName(column = "Harmonizable Variables (Tier 1)")
     private String harmonizableVariablesT1;
 
-    @CsvBindByName(column = "Harmonizable Variables (Tier 2)")
-    private String harmonizableVariablesT2;
-
     @CsvBindByName(column = "Harmonized Variables (Tier 1)")
     private String harmonizedVariablesT1;
-
-    @CsvBindByName(column = "Harmonized Variables (Tier 2)")
-    private String harmonizedVariablesT2;
-
 }

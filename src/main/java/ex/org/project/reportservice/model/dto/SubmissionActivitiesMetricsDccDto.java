@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@JsonPropertyOrder({ "DCC", "Studies Initiated", "Studies Published", "Data Files Submitted", "Data Files Approved",
+@JsonPropertyOrder({ "Center", "Studies Initiated", "Studies Published", "Data Files Submitted", "Data Files Approved",
         "Data Files Rejected" })
 public class SubmissionActivitiesMetricsDccDto extends SubmissionActivitiesMetricsDto {
     @JsonProperty("Studies Initiated")

@@ -6,30 +6,39 @@ import ex.org.project.reportservice.mapper.*;
 import ex.org.project.reportservice.model.*;
 import ex.org.project.reportservice.model.dto.*;
 import ex.org.project.reportservice.repositories.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Month;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.factory.Mappers;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
+import org.mockito.*;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+import ex.org.project.reportservice.model.dto.CenterDto;
+import ex.org.project.reportservice.model.dto.HubContentAggMetricsResponse;
+import ex.org.project.reportservice.model.dto.StudyPhsDto;
+import ex.org.project.reportservice.model.dto.UserActivitiesDto;
 
 
 @ExtendWith(SpringExtension.class)
@@ -71,7 +80,7 @@ class MetricsServiceTests {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        HubContentMetricsDccMapper dccMapper = Mappers.getMapper(HubContentMetricsDccMapper.class);
+        HubContentMetricsCenterMapper dccMapper = Mappers.getMapper(HubContentMetricsCenterMapper.class);
         SubmissionActivityMapper activityMapper = Mappers.getMapper(SubmissionActivityMapper.class);
         MetricsReportMapper metricsMapper = Mappers.getMapper(MetricsReportMapper.class);
         HarmonizationMetricsMapper harmonizationMapper = Mappers.getMapper(HarmonizationMetricsMapper.class);
@@ -99,19 +108,19 @@ class MetricsServiceTests {
 
     @Test
     void testCreateReportWithDccAggBy() {
-        String aggBy = "dcc";
+        String aggBy = "center";
         Integer reportId = 1;
         List<HubContentMetrics> aggregateMetrics = new ArrayList<>();
         aggregateMetrics.add(getTestHubContentMetrics());
 
-        when(hubContentMetricsRepository.findTotalFileSizeByDccAndReportId(reportId))
+        when(hubContentMetricsRepository.findTotalFileSizeByCenterAndReportId(reportId))
                 .thenReturn(aggregateMetrics);
 
         HubContentAggMetricsResponse result = reportService.createReport(aggBy, reportId);
         Assertions.assertNotNull(result);
         Assertions.assertEquals(2, result.aggDtos().size());
-        DccDto dto = (DccDto) result.aggDtos().get(0);
-        Assertions.assertEquals("DCC", dto.getDcc());
+        CenterDto dto = (CenterDto) result.aggDtos().get(0);
+        Assertions.assertEquals("Center", dto.getCenter());
         Assertions.assertEquals(3, dto.getTotalStudies());
         Assertions.assertEquals(13, dto.getStudiesWithData());
         Assertions.assertEquals(6.0, dto.getTotalFileSize());
@@ -130,13 +139,13 @@ class MetricsServiceTests {
     void testAggTotal() {
         // Create a list of HubContentMetrics for testing
         List<HubContentMetrics> aggregateMetrics = new ArrayList<>();
-        aggregateMetrics.add(new HubContentMetrics("dcc", 10, 100.0, 5, 2, 4, 1, 6, 7, 8, 9,6));
-        aggregateMetrics.add(new HubContentMetrics("dcc", 10, 100.0, 5, 2, 4, 1, 6, 7, 8, 9,6));
+        aggregateMetrics.add(new HubContentMetrics("center", 10, 100.0, 5, 2, 4, 1, 6, 7, 8, 9,6));
+        aggregateMetrics.add(new HubContentMetrics("center", 10, 100.0, 5, 2, 4, 1, 6, 7, 8, 9,6));
 
 
         // Test with totalFor = "DCC"
-        DccDto result1 = reportService.aggTotalDcc(aggregateMetrics);
-        Assertions.assertEquals("Total", result1.getDcc());
+        CenterDto result1 = reportService.aggTotalCenter(aggregateMetrics);
+        Assertions.assertEquals("Total", result1.getCenter());
         Assertions.assertEquals(20, result1.getTotalStudies());
         Assertions.assertEquals(200.0, result1.getTotalFileSize());
         Assertions.assertEquals(10, result1.getTotalFileCount());
@@ -378,14 +387,14 @@ class MetricsServiceTests {
     @Test
     void testGetCSVReport() throws UnsupportedEncodingException {
         MockHttpServletResponse response = new MockHttpServletResponse();
-        List<DccDto> aggDtos = new ArrayList<>();
+        List<CenterDto> aggDtos = new ArrayList<>();
         aggDtos.add(getDccDto());
         String[] columnNames = {"DCC","TOTAL STUDIES",
                 "STUDIES WITH DATA", "DATA SIZE", "ALL FILES", "DATA FILES",
                 "ORIG FILES", "TRANSFORM FILES", "META FILES", "DICTIONARY FILES",
                 "README FILES", "OTHER FILES"};
         String fileName = "hub_content_metrics.csv";
-        reportService.getCSVReport(response, aggDtos, fileName, DccDto.class, columnNames);
+        reportService.getCSVReport(response, aggDtos, fileName, CenterDto.class, columnNames);
 
         Assertions.assertEquals("text/csv", response.getContentType());
         Assertions.assertEquals("attachment; filename=\"hub_content_metrics.csv\"", response.getHeaderValue("Content-Disposition"));
@@ -395,8 +404,8 @@ class MetricsServiceTests {
         }
         //Removes the last comma
         responseString = responseString.substring(0, responseString.length() - 1);
-        for (DccDto dto : aggDtos){
-            String dtoString = "\"" + dto.getDcc() + "\"," +
+        for (CenterDto dto : aggDtos){
+            String dtoString = "\"" + dto.getCenter() + "\"," +
                     "\"" + dto.getTotalStudies() + "\"," +
                     "\"" + dto.getStudiesWithData() + "\"," +
                     "\"" + dto.getTotalFileSize() + "\"," +
@@ -420,7 +429,7 @@ class MetricsServiceTests {
         HubContentMetrics cm = new HubContentMetrics();
         cm.setId(1L);
         cm.setReportId(2);
-        cm.setDcc("DCC");
+        cm.setCenter("DCC");
         cm.setStudyPhs("StudyPhs");
         cm.setCountStudyPhs(3);
         cm.setStudyTitle("StudyTitle");
@@ -439,9 +448,9 @@ class MetricsServiceTests {
         return cm;
     }
 
-    private DccDto getDccDto(){
-        return DccDto.builder()
-                .dcc("dcc")
+    private CenterDto getDccDto(){
+        return CenterDto.builder()
+                .center("center")
                 .studiesWithData(1)
                 .totalStudies(2)
                 .dataFileCount(3)
@@ -462,9 +471,9 @@ class MetricsServiceTests {
     @Test
     void testSubmissionActivitiesMetrics(){
         when(submissionActivityRepository.findDccActivityMetrics(any(), any())).thenReturn(getDccActivityMetrics());
-        SubmissionActivitiesMetricsResponse dccResponse = reportService.submissionActivitiesMetrics("dcc", "2021-12-01", "2021-12-31");
+        SubmissionActivitiesMetricsResponse dccResponse = reportService.submissionActivitiesMetrics("center", "2021-12-01", "2021-12-31");
         SubmissionActivitiesMetricsDccDto dto1 = (SubmissionActivitiesMetricsDccDto) dccResponse.dtos().get(0);
-        Assertions.assertEquals("DCCName", dccResponse.dtos().get(0).getDcc());
+        Assertions.assertEquals("DCCName", dccResponse.dtos().get(0).getCenter());
         Assertions.assertEquals(1, dto1.getStudiesInitiated());
         Assertions.assertEquals(2, dto1.getStudiesPublished());
         Assertions.assertEquals(3, dto1.getDataFilesSubmitted());
@@ -476,7 +485,7 @@ class MetricsServiceTests {
         SubmissionActivitiesMetricsStudyDto dto2 = (SubmissionActivitiesMetricsStudyDto) studyResponse.dtos().get(0);
         Assertions.assertEquals("1", dto2.getPhs());
         Assertions.assertEquals("TestStudyName", dto2.getStudyName());
-        Assertions.assertEquals("StudyDccName", dto2.getDcc());
+        Assertions.assertEquals("StudyDccName", dto2.getCenter());
         Assertions.assertEquals(3, dto2.getDataFilesSubmitted());
         Assertions.assertEquals(4, dto2.getDataFilesApproved());
         Assertions.assertEquals(5, dto2.getDataFilesRejected());
@@ -487,7 +496,7 @@ class MetricsServiceTests {
     private List<Map<String, Object>> getDccActivityMetrics(){
         List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> metrics = new HashMap<>();
-        metrics.put("dcc", "DCCName");
+        metrics.put("center", "DCCName");
         metrics.put("studies_initiated", 1L);
         metrics.put("studies_published", 2L);
         metrics.put("data_files_submitted", 3L);
@@ -503,7 +512,7 @@ class MetricsServiceTests {
         Map<String, Object> metrics = new HashMap<>();
         metrics.put("study_phs", "1");
         metrics.put("study_name", "TestStudyName");
-        metrics.put("dcc", "StudyDccName");
+        metrics.put("center", "StudyDccName");
         metrics.put("data_files_submitted", 3L);
         metrics.put("data_files_approved", 4L);
         metrics.put("data_files_rejected", 5L);
@@ -546,7 +555,7 @@ class MetricsServiceTests {
 
         List<StudyByFileReport> list = new ArrayList<>();
         StudyByFileReport report = new StudyByFileReport();
-        report.setDcc("Tech");
+        report.setCenter("Tech");
         report.setStudyPhs("phs001234");
         report.setStudyTitle("Test Study");
         report.setStudyStatus("approved");
@@ -573,29 +582,20 @@ class MetricsServiceTests {
         List<String> columns = response1.columnNames();
 
         List<String> studyColumnNames = Arrays.asList("PHS", "Study Name",
-                "DCC", "Files", "Variables", "Harmonizable Variables (Tier 1)", "Harmonized Variables (Tier 1)",
-                "Harmonizable Variables (Tier 2)", "Harmonized Variables (Tier 2)",
-                "Total Harmonizable", "Total Harmonized");
+                "DCC", "Files", "Variables", "Harmonizable Variables (Tier 1)", "Harmonized Variables (Tier 1)");
         Assertions.assertTrue(columns.containsAll(studyColumnNames));
 
         StudyHarmonizationMetricsDTO dto = (StudyHarmonizationMetricsDTO) response1.dtos().get(0);
         Assertions.assertEquals("1", dto.getPhs());
         Assertions.assertEquals("TestStudyName", dto.getStudyName());
-        Assertions.assertEquals("TestDCC", dto.getDcc());
+        Assertions.assertEquals("TestDCC", dto.getCenter());
         Assertions.assertEquals(2, dto.getNumberOfFiles());
         Assertions.assertEquals(3, dto.getUniqueVariables());
         Assertions.assertEquals(4, dto.getUniqueHarmonizableVariablesT1());
-        Assertions.assertEquals(5, dto.getUniqueHarmonizableVariablesT2());
-        Assertions.assertEquals(BigInteger.valueOf(7L), dto.getHarmonizable());
-        Assertions.assertEquals(8, dto.getUniqueHarmonizedVariablesT1());
-        Assertions.assertEquals(9, dto.getUniqueHarmonizedVariablesT2());
-        Assertions.assertEquals(BigInteger.valueOf(11L), dto.getHarmonized());
 
         List<String> datafileColumnNames = Arrays.asList("File Name (Orig)",
                 "File Name (Trans)", "PHS", "Study Name", "DCC", "Variables (Orig)",
-                "Variables (Trans)", "Harmonizable Variables (Tier 1)", "Harmonized Variables (Tier 1)",
-                "Harmonizable Variables (Tier 2)", "Harmonized Variables (Tier 2)",
-                "Total Harmonizable", "Total Harmonized");
+                "Variables (Trans)", "Harmonizable Variables (Tier 1)", "Harmonized Variables (Tier 1)");
         List<DatafileHarmonizationMetricsDashboard> datafileList = new ArrayList<>();
         datafileList.add(getDatafileHarmonizationMetrics());
         when(datafileHarmonizationRepository.findByReportId(anyInt())).thenReturn(datafileList);
@@ -608,15 +608,11 @@ class MetricsServiceTests {
         Assertions.assertEquals("TestTransFileName", dto2.getTransformFileName());
         Assertions.assertEquals("12", dto2.getPhs());
         Assertions.assertEquals("TestDatafileName", dto2.getStudyName());
-        Assertions.assertEquals("TestDCCdata", dto2.getDcc());
+        Assertions.assertEquals("TestDCCdata", dto2.getCenter());
         Assertions.assertEquals(13, dto2.getOriginalUniqueVariables());
         Assertions.assertEquals(14, dto2.getTransformUniqueVariables());
         Assertions.assertEquals(15, dto2.getUniqueHarmonizableVariablesT1());
-        Assertions.assertEquals(16, dto2.getUniqueHarmonizableVariablesT2());
-        Assertions.assertEquals(BigInteger.valueOf(18L), dto2.getHarmonizable());
         Assertions.assertEquals(19, dto2.getUniqueHarmonizedVariablesT1());
-        Assertions.assertEquals(20, dto2.getUniqueHarmonizedVariablesT2());
-        Assertions.assertEquals(BigInteger.valueOf(22L), dto2.getHarmonized());
 
     }
 
@@ -625,22 +621,14 @@ class MetricsServiceTests {
         metrics.setId(0);
         metrics.setStudyPhs("1");
         metrics.setStudyName("TestStudyName");
-        metrics.setDcc("TestDCC");
+        metrics.setCenter("TestDCC");
         metrics.setOrigTransformPairsCount(2);
         metrics.setVariableCount(3);
         metrics.setHarmonizableTier1VariableCount(4);
-        metrics.setHarmonizableTier2VariableCount(5);
-        metrics.setHarmonizableTier3VariableCount(6);
-        metrics.setHarmonizableTotal(7);
         metrics.setHarmonizedTier1VariableCount(8);
-        metrics.setHarmonizedTier2VariableCount(9);
-        metrics.setHarmonizedTier3VariableCount(10);
-        metrics.setHarmonizedTotal(11);
         metrics.setVariables("Variables");
         metrics.setHarmonizableTier1Variables("Tier 1");
         metrics.setHarmonizedTier1Variables("Tier 1");
-        metrics.setHarmonizableTier2Variables("Tier 2");
-        metrics.setHarmonizedTier2Variables("Tier 2");
         return metrics;
     }
 
@@ -650,23 +638,15 @@ class MetricsServiceTests {
         metrics.setTransformFileName("TestTransFileName");
         metrics.setStudyPhs("12");
         metrics.setStudyName("TestDatafileName");
-        metrics.setDcc("TestDCCdata");
+        metrics.setCenter("TestDCCdata");
         metrics.setOrigVariableCount(13);
         metrics.setTransformVariableCount(14);
         metrics.setHarmonizableTier1VariableCount(15);
-        metrics.setHarmonizableTier2VariableCount(16);
-        metrics.setHarmonizableTier3VariableCount(17);
-        metrics.setHarmonizableTotal(18);
         metrics.setHarmonizedTier1VariableCount(19);
-        metrics.setHarmonizedTier2VariableCount(20);
-        metrics.setHarmonizedTier3VariableCount(21);
-        metrics.setHarmonizedTotal(22);
         metrics.setOrigVariables("Orig Variables");
         metrics.setTransformVariables("Transform Variables");
         metrics.setHarmonizableTier1Variables("Tier 1");
         metrics.setHarmonizedTier1Variables("Tier 1");
-        metrics.setHarmonizableTier2Variables("Tier 2");
-        metrics.setHarmonizedTier2Variables("Tier 2");
         return metrics;
     }
 
@@ -698,20 +678,14 @@ class MetricsServiceTests {
         StudyHarmonizationMetricsDashboard metric = studyList.get(0);
         responseString += "\n\"" + metric.getStudyPhs() + "\",";
         responseString += "\"" + metric.getStudyName() + "\",";
-        responseString += "\"" + metric.getDcc() + "\",";
+        responseString += "\"" + metric.getCenter() + "\",";
         responseString += "\"" + metric.getOrigTransformPairsCount() + "\",";
         responseString += "\"" + metric.getVariableCount() + "\",";
         responseString += "\"" + metric.getHarmonizableTier1VariableCount() + "\",";
         responseString += "\"" + metric.getHarmonizedTier1VariableCount() + "\",";
-        responseString += "\"" + metric.getHarmonizableTier2VariableCount() + "\",";
-        responseString += "\"" + metric.getHarmonizedTier2VariableCount() + "\",";
-        responseString += "\"" + metric.getHarmonizableTotal() + "\",";
-        responseString += "\"" + metric.getHarmonizedTotal() + "\",";
         responseString += "\"" + metric.getVariables() + "\",";
         responseString += "\"" + metric.getHarmonizableTier1Variables() + "\",";
         responseString += "\"" + metric.getHarmonizedTier1Variables() + "\",";
-        responseString += "\"" + metric.getHarmonizableTier2Variables() + "\",";
-        responseString += "\"" + metric.getHarmonizedTier2Variables() + "\"";
         Assertions.assertEquals(responseString + "\n", response.getContentAsString());
 
 
@@ -726,9 +700,8 @@ class MetricsServiceTests {
         List<String> dataColumnNames = Arrays.asList("FILE NAME (ORIG)",
                 "FILE NAME (TRANS)", "PHS", "STUDY NAME", "DCC", "VARIABLES COUNT (ORIG)",
                 "VARIABLES COUNT (TRANS)", "HARMONIZABLE VARIABLES COUNT (TIER 1)", "HARMONIZED VARIABLES COUNT (TIER 1)",
-                "HARMONIZABLE VARIABLES COUNT (TIER 2)", "HARMONIZED VARIABLES COUNT (TIER 2)", "TOTAL HARMONIZABLE",
-                "TOTAL HARMONIZED", "ORIGINAL VARIABLES", "TRANSFORM VARIABLES", "HARMONIZABLE VARIABLES (TIER 1)",
-                "HARMONIZED VARIABLES (TIER 1)", "HARMONIZABLE VARIABLES (TIER 2)", "HARMONIZED VARIABLES (TIER 2)");
+                "ORIGINAL VARIABLES", "TRANSFORM VARIABLES", "HARMONIZABLE VARIABLES (TIER 1)",
+                "HARMONIZED VARIABLES (TIER 1)");
 
         String responseString2 = "";
         for (String s : dataColumnNames){
@@ -741,21 +714,15 @@ class MetricsServiceTests {
         responseString2 += "\"" + metrics2.getTransformFileName() + "\",";
         responseString2 += "\"" + metrics2.getStudyPhs() + "\",";
         responseString2 += "\"" + metrics2.getStudyName() + "\",";
-        responseString2 += "\"" + metrics2.getDcc() + "\",";
+        responseString2 += "\"" + metrics2.getCenter() + "\",";
         responseString2 += "\"" + metrics2.getOrigVariableCount() + "\",";
         responseString2 += "\"" + metrics2.getTransformVariableCount() + "\",";
         responseString2 += "\"" + metrics2.getHarmonizableTier1VariableCount() + "\",";
         responseString2 += "\"" + metrics2.getHarmonizedTier1VariableCount() + "\",";
-        responseString2 += "\"" + metrics2.getHarmonizableTier2VariableCount() + "\",";
-        responseString2 += "\"" + metrics2.getHarmonizedTier2VariableCount() + "\",";
-        responseString2 += "\"" + metrics2.getHarmonizableTotal() + "\",";
-        responseString2 += "\"" + metrics2.getHarmonizedTotal() + "\",";
         responseString2 += "\"" + metrics2.getOrigVariables() + "\",";
         responseString2 += "\"" + metrics2.getTransformVariables() + "\",";
         responseString2 += "\"" + metrics2.getHarmonizableTier1Variables() + "\",";
         responseString2 += "\"" + metrics2.getHarmonizedTier1Variables() + "\",";
-        responseString2 += "\"" + metrics2.getHarmonizableTier2Variables() + "\",";
-        responseString2 += "\"" + metrics2.getHarmonizedTier2Variables() + "\"";
         Assertions.assertEquals(responseString2 + "\n", response1.getContentAsString());
 
         Assertions.assertThrows(BadDataException.class, () -> reportService.getHarmonizationMetricsCSV("aggby", response, 1));
@@ -779,7 +746,7 @@ class MetricsServiceTests {
         //Removes the last comma
         responseString = responseString.substring(0, responseString.length() - 1);
         Map<String, Object> dccMap = dccList.get(0);
-        responseString += "\n\"" + dccMap.get("dcc") + "\",";
+        responseString += "\n\"" + dccMap.get("center") + "\",";
         responseString += "\"" + dccMap.get("studies_initiated") + "\",";
         responseString += "\"" + dccMap.get("studies_published") + "\",";
         responseString += "\"" + dccMap.get("data_files_submitted") + "\",";
@@ -801,7 +768,7 @@ class MetricsServiceTests {
         Map<String, Object> studyMap = studyList.get(0);
         responseString2 += "\n\"" + studyMap.get("study_phs") + "\",";
         responseString2 += "\"" + studyMap.get("study_name") + "\",";
-        responseString2 += "\"" + studyMap.get("dcc") + "\",";
+        responseString2 += "\"" + studyMap.get("center") + "\",";
         responseString2 += "\"" + studyMap.get("data_files_submitted") + "\",";
         responseString2 += "\"" + studyMap.get("data_files_approved") + "\",";
         responseString2 += "\"" + studyMap.get("data_files_rejected") + "\"";
@@ -813,7 +780,7 @@ class MetricsServiceTests {
     void testStudyByFileCSV() throws UnsupportedEncodingException {
         List<StudyByFileReport> studyList = getWeeklyMetricsReportList();
         MockHttpServletResponse response1 = new MockHttpServletResponse();
-        when(weeklyHubContentRepository.findAllByOrderByDccAsc()).thenReturn(studyList);
+        when(weeklyHubContentRepository.findAllByOrderByCenterAsc()).thenReturn(studyList);
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         String currentDateTime = dateFormatter.format(new Date());
         String fileName = currentDateTime + "-DataHub-Weekly-Metrics.csv";
@@ -831,7 +798,7 @@ class MetricsServiceTests {
         //Removes the last comma
         responseString = responseString.substring(0, responseString.length() - 1);
         StudyByFileReport reportMap = studyList.get(0);
-        responseString += "\n\"" + reportMap.getDcc() + "\",";
+        responseString += "\n\"" + reportMap.getCenter() + "\",";
         responseString += "\"" + reportMap.getStudyPhs() + "\",";
         responseString += "\"" + reportMap.getStudyTitle() + "\",";
         responseString += "\"" + reportMap.getStudyStatus() + "\",";

@@ -13,8 +13,8 @@ import java.util.Map;
 @Repository
 public interface SubmissionActivityRepository extends JpaRepository<SubmissionActivity, Integer> {
 
-    @Query(value = "select dcc1.*, dcc2.data_files_rejected from " +
-            "(select b.dcc, " +
+    @Query(value = "select center1.*, center2.data_files_rejected from " +
+            "(select b.center, " +
             "count(distinct study_id) filter (where study_initiated_date > :startDate and " +
             "study_initiated_date < :endDate) as studies_initiated, " +
             "count(distinct study_id) filter (where study_published_date > :startDate and " +
@@ -24,19 +24,19 @@ public interface SubmissionActivityRepository extends JpaRepository<SubmissionAc
             "count(distinct data_file_id) filter (where  data_file_approval_date > :startDate and " +
             "data_file_approval_date < :endDate) as data_files_approved " +
             "from view_submission_activity b " +
-            "group by b.dcc) as dcc1 " +
+            "group by b.center) as center1 " +
             "left outer join " +
-            "(select a.dcc, sum(file_rejected_count) as data_files_rejected from " +
-            "(select dcc, data_submission_id, files_rejected_date, file_rejected_count " +
+            "(select a.center, sum(file_rejected_count) as data_files_rejected from " +
+            "(select center, data_submission_id, files_rejected_date, file_rejected_count " +
             "from view_submission_activity b " +
             "where file_rejected_count is not null and files_rejected_date > :startDate and " +
             "files_rejected_date < :endDate " +
-            "group by dcc,data_submission_id, files_rejected_date,file_rejected_count) a " +
-            "group by a.dcc) dcc2 on dcc1.dcc=dcc2.dcc", nativeQuery = true)
+            "group by center,data_submission_id, files_rejected_date,file_rejected_count) a " +
+            "group by a.center) center2 on center1.center=center2.center", nativeQuery = true)
     List<Map<String, Object>> findDccActivityMetrics(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
 
     @Query(value = "select study1.*, study2.data_files_rejected from " +
-            "(select b.study_phs, b.study_name, b.dcc, " +
+            "(select b.study_phs, b.study_name, b.center, " +
             "count(distinct study_id) filter (where study_initiated_date > :startDate and " +
             "study_initiated_date < :endDate) as studies_initiated, " +
             "count(distinct study_id) filter (where study_published_date > :startDate and " +
@@ -46,14 +46,14 @@ public interface SubmissionActivityRepository extends JpaRepository<SubmissionAc
             "count(distinct data_file_id) filter (where  data_file_approval_date > :startDate and " +
             "data_file_approval_date < :endDate) as data_files_approved " +
             "from view_submission_activity b " +
-            "group by  b.study_phs, b.study_name, b.dcc) as study1 " +
+            "group by  b.study_phs, b.study_name, b.center) as study1 " +
             "left outer join " +
-            "(select a.study_phs, a.study_name, a.dcc, sum(file_rejected_count) as data_files_rejected from " +
-            "(select study_phs, study_name, dcc, data_submission_id, files_rejected_date, file_rejected_count " +
+            "(select a.study_phs, a.study_name, a.center, sum(file_rejected_count) as data_files_rejected from " +
+            "(select study_phs, study_name, center, data_submission_id, files_rejected_date, file_rejected_count " +
             "from view_submission_activity b " +
             "where file_rejected_count is not null and files_rejected_date > :startDate and " +
             "files_rejected_date < :endDate " +
-            "group by study_phs, study_name, dcc,data_submission_id, files_rejected_date,file_rejected_count) a " +
-            "group by a.study_phs, a.study_name, a.dcc) study2 on study1.study_phs=study2.study_phs", nativeQuery = true)
+            "group by study_phs, study_name, center,data_submission_id, files_rejected_date,file_rejected_count) a " +
+            "group by a.study_phs, a.study_name, a.center) study2 on study1.study_phs=study2.study_phs", nativeQuery = true)
     List<Map<String, Object>> findStudyActivityMetrics(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
 }

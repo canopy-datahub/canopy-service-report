@@ -18,8 +18,8 @@ public class HubContentMetrics {
 	@Column(name = "report_id")
 	private Integer reportId;
 
-	@Column(name = "dcc")
-	private String dcc;
+	@Column(name = "center")
+	private String center;
 
 	@Column(name = "study_phs")
 	private String studyPhs;
@@ -66,11 +66,11 @@ public class HubContentMetrics {
 	@Transient
 	private Integer countStudyHasDataFile;
 
-	public HubContentMetrics(String dcc, Integer countStudyPhs, Double totalFileSize, Integer totalFileCount,
-			Integer dataFileCount, Integer origDataFileCount, Integer standardizedDataFileCount,
-			Integer metadataFileCount, Integer dictionaryFileCount, Integer readmeFileCount, Integer otherFileCount,
-			Integer countStudyHasDataFile) {
-		this.dcc = dcc;
+	public HubContentMetrics(String center, Integer countStudyPhs, Double totalFileSize, Integer totalFileCount,
+													 Integer dataFileCount, Integer origDataFileCount, Integer standardizedDataFileCount,
+													 Integer metadataFileCount, Integer dictionaryFileCount, Integer readmeFileCount, Integer otherFileCount,
+													 Integer countStudyHasDataFile) {
+		this.center = center;
 		this.countStudyPhs = countStudyPhs;
 		this.totalFileCount = totalFileCount;
 		this.dataFileCount = dataFileCount;

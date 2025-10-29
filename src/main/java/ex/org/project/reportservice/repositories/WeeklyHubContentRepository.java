@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface WeeklyHubContentRepository extends JpaRepository<StudyByFileReport, Integer> {
 
-    List<StudyByFileReport> findAllByOrderByDccAsc();
+    List<StudyByFileReport> findAllByOrderByCenterAsc();
 }
