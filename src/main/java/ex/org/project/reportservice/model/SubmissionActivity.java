@@ -25,9 +25,6 @@ public class SubmissionActivity {
     @Column(name = "center")
     private String center;
 
-    @Column(name = "study_phs")
-    private String studyPhs;
-
     @Column(name = "study_name")
     private String studyName;
 

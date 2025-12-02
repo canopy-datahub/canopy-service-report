@@ -12,7 +12,7 @@ public class DatafileHarmonizationMetricsDashboard extends DatafileHarmonization
     private String studyName;
 
     public DatafileHarmonizationMetricsDashboard(Integer id, Integer reportId, String originalFileName,
-                                                 String transformFileName, String studyPhs, String center,
+                                                 String transformFileName, String studyId, String center,
                                                  Integer origVariableCount, Integer transformVariableCount,
                                                  Integer harmonizableTier1VariableCount,
                                                  Integer harmonizedTier1VariableCount,
@@ -21,7 +21,7 @@ public class DatafileHarmonizationMetricsDashboard extends DatafileHarmonization
                                                  String origVariables,
                                                  String transformVariables,
                                                  String studyName) {
-        super(id, reportId, originalFileName, transformFileName, studyPhs, center, origVariableCount,
+        super(id, reportId, originalFileName, transformFileName, studyId, center, origVariableCount,
             transformVariableCount, harmonizableTier1VariableCount, harmonizedTier1VariableCount,origVariables,
             transformVariables, harmonizableTier1Variables, harmonizedTier1Variables);
         this.studyName = studyName;

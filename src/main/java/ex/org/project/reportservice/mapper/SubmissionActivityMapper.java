@@ -27,7 +27,7 @@ public interface SubmissionActivityMapper {
     @Mapping(target = "dataFilesSubmitted", source = "data_files_submitted", qualifiedByName = "longMapper")
     @Mapping(target = "dataFilesApproved", source = "data_files_approved", qualifiedByName = "longMapper")
     @Mapping(target = "dataFilesRejected", source = "data_files_rejected", qualifiedByName = "longMapper")
-    @Mapping(target = "phs", source = "study_phs", qualifiedByName = "stringMapper")
+    @Mapping(target = "studyId", source = "study_id", qualifiedByName = "stringMapper")
     @Mapping(target = "studyName", source = "study_name", qualifiedByName = "stringMapper")
     SubmissionActivitiesMetricsStudyDto mapToStudyDto(Map<String, Object> map);
 

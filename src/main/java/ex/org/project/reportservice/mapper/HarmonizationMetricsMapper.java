@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface HarmonizationMetricsMapper {
 
-    @Mapping(source = "studyPhs", target = "phs")
+    @Mapping(source = "studyId", target = "studyId")
     @Mapping(source = "origTransformPairsCount", target = "numberOfFiles")
     @Mapping(source = "variableCount", target = "uniqueVariables")
     @Mapping(source = "harmonizableTier1VariableCount", target = "uniqueHarmonizableVariablesT1")
@@ -26,7 +26,7 @@ public interface HarmonizationMetricsMapper {
 
     @Mapping(source = "origVariableCount", target = "originalUniqueVariables")
     @Mapping(source = "transformVariableCount", target = "transformUniqueVariables")
-    @Mapping(source = "studyPhs", target = "phs")
+    @Mapping(source = "studyId", target = "studyId")
     @Mapping(source = "harmonizableTier1VariableCount", target = "uniqueHarmonizableVariablesT1")
     @Mapping(source = "harmonizedTier1VariableCount", target = "uniqueHarmonizedVariablesT1")
     @Mapping(source = "harmonizableTier1Variables", target = "harmonizableVariablesT1")

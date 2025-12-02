@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface HubContentMetricsCenterMapper {
 
-    @Mapping(source = "entity.countStudyPhs", target = "totalStudies")
+    @Mapping(source = "entity.countStudy", target = "totalStudies")
     @Mapping(source = "entity.countStudyHasDataFile", target = "studiesWithData")
     @Mapping(source = "entity.standardizedDataFileCount", target = "transformFilesCount")
     @Mapping(source = "entity.origDataFileCount", target = "origRawFileCount")

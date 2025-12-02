@@ -13,8 +13,8 @@ import lombok.experimental.SuperBuilder;
 @Data
 @ToString(callSuper = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({ "studyPhs", "studyName" })
-public class StudyPhsDto extends HubContentAggMetricsDto {
+@JsonPropertyOrder({ "studyId", "studyName" })
+public class StudyIdDto extends HubContentAggMetricsDto {
 
 	@JsonProperty("Study Name")
 	@CsvBindByName(column = "Study Name")
@@ -22,5 +22,5 @@ public class StudyPhsDto extends HubContentAggMetricsDto {
 
 	@JsonProperty("Study ID")
 	@CsvBindByName(column = "Study ID")
-	private String studyPhs;
+	private String studyId;
 }

@@ -94,7 +94,7 @@ public class MetricsService {
             return HubContentAggMetricsResponse.builder().columnNames(CENTER_COLUMN_NAMES).aggDtos(aggDtos).build();
         }
         else if(aggBy.equalsIgnoreCase(STUDY)) {
-            List<StudyPhsDto> aggDtos = getHubMetricsForStudy(reportId);
+            List<StudyIdDto> aggDtos = getHubMetricsForStudy(reportId);
             // Build and return the HubContentAggMetricsDto object for study report
             return HubContentAggMetricsResponse.builder().columnNames(STUDY_COLUMN_NAMES).aggDtos(aggDtos).build();
         }
@@ -120,10 +120,10 @@ public class MetricsService {
     /**
      * Helper method for calling the DB and mapping the DTOs for the hub metrics report and aggBy is Study
      */
-    public List<StudyPhsDto> getHubMetricsForStudy(Integer reportId) {
+    public List<StudyIdDto> getHubMetricsForStudy(Integer reportId) {
         List<HubContentMetrics> aggregateMetrics = hubContentMetricsRepository.findByStudyStatusAndHasDataFileAndReportId(
                 "Approved", true, reportId);
-        List<StudyPhsDto> aggDtos = hubContentMetricsStudyMapper.toDto(aggregateMetrics);
+        List<StudyIdDto> aggDtos = hubContentMetricsStudyMapper.toDto(aggregateMetrics);
         aggDtos.add(aggTotalStudy(aggregateMetrics));
         return aggDtos;
     }
@@ -138,7 +138,7 @@ public class MetricsService {
     public static CenterDto aggTotalCenter(List<HubContentMetrics> aggregateMetrics) {
         return CenterDto.builder()
                 .center("Total")
-                .totalStudies(aggregateMetrics.stream().mapToInt(HubContentMetrics::getCountStudyPhs).sum())
+                .totalStudies(aggregateMetrics.stream().mapToInt(HubContentMetrics::getCountStudy).sum())
                 .totalFileSize(aggregateMetrics.stream()
                                        .map(HubContentMetrics::getTotalFileSize)
                                        .mapToDouble(MetricsService::normalizeNullDouble)
@@ -172,9 +172,9 @@ public class MetricsService {
      * @param aggregateMetrics The list of HubContentMetrics representing the aggregate metrics.
      * @return A DccDto object with the total metrics for all Studys.
      */
-    public static StudyPhsDto aggTotalStudy(List<HubContentMetrics> aggregateMetrics) {
-        return StudyPhsDto.builder()
-                .studyPhs("Total")
+    public static StudyIdDto aggTotalStudy(List<HubContentMetrics> aggregateMetrics) {
+        return StudyIdDto.builder()
+                .studyId("Total")
                 .totalFileSize(aggregateMetrics.stream().mapToDouble(HubContentMetrics::getTotalFileSize).sum())
                 .totalFileCount(aggregateMetrics.stream().mapToInt(HubContentMetrics::getTotalFileCount).sum())
                 .dataFileCount(aggregateMetrics.stream().mapToInt(HubContentMetrics::getDataFileCount).sum())
@@ -333,10 +333,10 @@ public class MetricsService {
             getCSVReport(response, aggDtos, fileName, CenterDto.class, columnNames);
         }
         else if(aggBy.equalsIgnoreCase(STUDY)) {
-            List<StudyPhsDto> aggDtos = getHubMetricsForStudy(reportId);
+            List<StudyIdDto> aggDtos = getHubMetricsForStudy(reportId);
             String[] columnNames = STUDY_COLUMN_NAMES.stream().map(String::toUpperCase).toArray(String[]::new);
             // Build and return the HubContentAggMetricsDto object for study report
-            getCSVReport(response, aggDtos, fileName, StudyPhsDto.class, columnNames);
+            getCSVReport(response, aggDtos, fileName, StudyIdDto.class, columnNames);
         }
         else {
             throw new BadDataException("Invalid 'Aggregate By' option provided");

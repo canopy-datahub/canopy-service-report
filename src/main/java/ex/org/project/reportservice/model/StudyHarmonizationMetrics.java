@@ -20,8 +20,8 @@ public class StudyHarmonizationMetrics {
     @Column(name = "report_id")
     private Integer reportId;
 
-    @Column(name = "study_phs")
-    private String studyPhs;
+    @Column(name = "study_id")
+    private String studyId;
 
     @Column(name = "center")
     private String center;
@@ -49,7 +49,7 @@ public class StudyHarmonizationMetrics {
 
     public StudyHarmonizationMetrics(Integer reportId, StudyMetrics studyMetrics){
         this.reportId = reportId;
-        this.studyPhs = studyMetrics.studyId().value();
+        this.studyId = studyMetrics.studyId().value();
         this.center = studyMetrics.programId().toString();
         this.origTransformPairsCount = studyMetrics.nOrigTransformFilePairs();
         this.variableCount = studyMetrics.nUniqueDataElements();
