@@ -2,7 +2,7 @@ FROM openjdk:22-ea-17-jdk-slim
 EXPOSE 8080
 
 ARG CERT
-ARG JAR_FILE=target/ReportService-0.0.1-SNAPSHOT.jar
+ARG JAR_FILE=target/datahub-service-report-0.0.1-SNAPSHOT.jar
 
 # Install cURL to perform ECS health check
 RUN apt update && apt install -y curl
