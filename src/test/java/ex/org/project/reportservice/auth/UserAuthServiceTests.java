@@ -13,7 +13,11 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import ex.org.project.reportservice.auth.core.KeycloakAuthenticationService;
+import org.springframework.security.oauth2.jwt.Jwt;
 
 @ExtendWith(MockitoExtension.class)
 class UserAuthServiceTests {
@@ -32,15 +36,14 @@ class UserAuthServiceTests {
 
     private final AuthUserMapper authUserMapper = new AuthUserMapperImpl();
 
-    private UserAuthService userAuthService;
+    private KeycloakAuthenticationService authenticationService;
 
-    @Mock
-    private AuthRasService authRasService;
+    private UserAuthService userAuthService;
 
     @BeforeEach
     public void setup() {
         userAuthService = new UserAuthService(authUserMapper, authRasTrackingRepository, authUserRepository,
-                authUserRasRepository, authUtilRepository, authRasService);
+                authUserRasRepository, authUtilRepository);
     }
 
     @Test
@@ -147,13 +150,14 @@ class UserAuthServiceTests {
         authUser.setRoles(List.of(authRole));
         authUser.setStatus(status);
         authUser.setId(8);
+        Jwt jwt = mock(Jwt.class);
 
         when(authRasTrackingRepository.findBySessionId(anyString()))
                 .thenReturn(Optional.of(rasTracking));
         when(authUserRepository.findByEmail("test@bah.com"))
                 .thenReturn(Optional.of(authUser));
 
-        Integer response = userAuthService.checkAuth("123");
+        Integer response = authenticationService.checkAuth(jwt, List.of());
 
         assertEquals(8, response);
 
