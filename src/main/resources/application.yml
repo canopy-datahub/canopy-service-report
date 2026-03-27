@@ -14,7 +14,7 @@ spring:
     open-in-view: false
 
 server:
-  port: 8084
+  port: 8080
 
 s3:
   download-directory: "workingDirectory/"
@@ -87,7 +87,7 @@ spring:
   jpa:
     show-sql: true
   config:
-#    import: aws-secretsmanager:application_dev
+    import: aws-secretsmanager:${AWS_SECRET_NAME}
     activate:
       on-profile: dev
   datasource:
@@ -113,7 +113,7 @@ logging:
 
 spring:
   config:
-    import: aws-secretsmanager:application_test
+    import: aws-secretsmanager:${AWS_SECRET_NAME}
     activate:
       on-profile: test
 
@@ -126,7 +126,7 @@ logging:
 
 spring:
   config:
-    import: aws-secretsmanager:application_prod
+    import: aws-secretsmanager:${AWS_SECRET_NAME}
     activate:
       on-profile: prod
 
