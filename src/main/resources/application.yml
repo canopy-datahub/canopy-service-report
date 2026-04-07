@@ -2,6 +2,12 @@
 spring:
   profiles:
     active: dev
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${DATAHUB_KEYCLOAK_ISSUER_URI}
+          jwk-set-uri: ${DATAHUB_KEYCLOAK_JWK_SET_URI}
   mvc:
     servlet:
       path: /api/report/v1
