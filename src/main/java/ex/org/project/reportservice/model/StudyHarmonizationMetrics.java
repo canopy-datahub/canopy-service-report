@@ -3,10 +3,7 @@ package ex.org.project.reportservice.model;
 import edu.stanford.bmir.radx.harmonization.metrics.lib.StudyMetrics;
 import ex.org.project.reportservice.util.HarmonizationCalculatorUtil;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
@@ -23,8 +20,8 @@ public class StudyHarmonizationMetrics {
     @Column(name = "report_id")
     private Integer reportId;
 
-    @Column(name = "study_phs")
-    private String studyPhs;
+    @Column(name = "study_id")
+    private String studyId;
 
     @Column(name = "center")
     private String center;
@@ -52,7 +49,7 @@ public class StudyHarmonizationMetrics {
 
     public StudyHarmonizationMetrics(Integer reportId, StudyMetrics studyMetrics){
         this.reportId = reportId;
-        this.studyPhs = studyMetrics.studyId().value();
+        this.studyId = studyMetrics.studyId().value();
         this.center = studyMetrics.programId().toString();
         this.origTransformPairsCount = studyMetrics.nOrigTransformFilePairs();
         this.variableCount = studyMetrics.nUniqueDataElements();

@@ -17,9 +17,6 @@ public class ViewStudy {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer studyId;
 
-    @Column(name = "phs")
-    private String phs;
-
     @Column(name = "title")
     private String title;
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.opencsv.bean.CsvBindByName;
+
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
@@ -12,8 +13,8 @@ import lombok.experimental.SuperBuilder;
 @Data
 @ToString(callSuper = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({ "studyPhs", "studyName" })
-public class StudyPhsDto extends HubContentAggMetricsDto {
+@JsonPropertyOrder({ "studyId", "studyName" })
+public class StudyIdDto extends HubContentAggMetricsDto {
 
 	@JsonProperty("Study Name")
 	@CsvBindByName(column = "Study Name")
@@ -21,5 +22,5 @@ public class StudyPhsDto extends HubContentAggMetricsDto {
 
 	@JsonProperty("Study ID")
 	@CsvBindByName(column = "Study ID")
-	private String studyPhs;
+	private String studyId;
 }

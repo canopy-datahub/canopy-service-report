@@ -1,9 +1,9 @@
 package ex.org.project.reportservice.service;
 
-import ex.org.project.reportservice.model.ViewUserPopulation;
 import ex.org.project.reportservice.model.populationMetrics.*;
 import ex.org.project.reportservice.repositories.UserLoginRepository;
 import ex.org.project.reportservice.repositories.ViewUserPopulationRepository;
+import ex.org.project.reportservice.model.ViewUserPopulation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

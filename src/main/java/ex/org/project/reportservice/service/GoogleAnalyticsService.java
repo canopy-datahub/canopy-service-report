@@ -1,8 +1,8 @@
 package ex.org.project.reportservice.service;
 
 import com.google.analytics.data.v1beta.*;
-import ex.org.project.reportservice.config.GoogleAnalyticsConfig;
 import ex.org.project.reportservice.exceptions.UserActivitiesReportException;
+import ex.org.project.reportservice.config.GoogleAnalyticsConfig;
 import ex.org.project.reportservice.model.UserActivitiesMetrics;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

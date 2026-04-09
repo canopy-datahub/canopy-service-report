@@ -1,9 +1,9 @@
 package ex.org.project.reportservice.model.populationMetrics;
 
+import ex.org.project.reportservice.model.dto.UserMetricsEmailDto;
 import ex.org.project.reportservice.mapper.UserPopulationMapper;
 import ex.org.project.reportservice.mapper.UserPopulationMapperImpl;
 import ex.org.project.reportservice.model.ViewUserPopulation;
-import ex.org.project.reportservice.model.dto.UserMetricsEmailDto;
 
 import java.time.LocalDateTime;
 import java.util.List;

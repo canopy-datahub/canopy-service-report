@@ -2,10 +2,7 @@ package ex.org.project.reportservice.model;
 
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvBindByPosition;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
@@ -29,10 +26,10 @@ public class StudyByFileReport {
     @Column(name = "center")
     private String center;
 
-    @CsvBindByName(column = "Study PHS")
+    @CsvBindByName(column = "Study ID")
     @CsvBindByPosition(position = 1)
-    @Column(name = "study_phs")
-    private String studyPhs;
+    @Column(name = "study_id")
+    private String studyId;
 
     @CsvBindByName(column = "Study Title")
     @CsvBindByPosition(position = 2)

@@ -1,8 +1,8 @@
 package ex.org.project.reportservice.exceptions;
 
-import ex.org.project.datahub.auth.exception.UserAuthenticationException;
-import ex.org.project.datahub.auth.exception.UserAuthorizationException;
-import ex.org.project.datahub.auth.exception.UserNotFoundException;
+import ex.org.project.reportservice.auth.UserAuthenticationException;
+import ex.org.project.reportservice.auth.UserAuthorizationException;
+import ex.org.project.reportservice.auth.UserNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

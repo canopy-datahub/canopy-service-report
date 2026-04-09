@@ -9,7 +9,7 @@ import java.util.List;
 public interface DataFileInputEntityRepository extends JpaRepository<DataFileInputEntity, Integer> {
 
     @Query(nativeQuery = true,
-            value = "select df.id, sf.file_name as file_name, vs.center as program, vs.phs as study_id, "
+            value = "select df.id, sf.file_name as file_name, vs.center as program, vs.study_id as study_id, "
                     + "ldfc.\"name\" as category, df.file_headers as variable_names from data_file df "
                     + "join data_submission ds on df.submission_id = ds.id "
                     + "join view_study vs on ds.study_id = vs.study_id "

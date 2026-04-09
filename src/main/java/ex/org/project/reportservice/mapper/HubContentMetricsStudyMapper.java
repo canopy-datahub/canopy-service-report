@@ -1,7 +1,7 @@
 package ex.org.project.reportservice.mapper;
 
+import ex.org.project.reportservice.model.dto.StudyIdDto;
 import ex.org.project.reportservice.model.HubContentMetrics;
-import ex.org.project.reportservice.model.dto.StudyPhsDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -13,8 +13,7 @@ public interface HubContentMetricsStudyMapper {
     @Mapping(source = "entity.studyTitle", target = "studyName")
     @Mapping(source = "entity.standardizedDataFileCount", target = "transformFilesCount")
     @Mapping(source = "entity.origDataFileCount", target = "origRawFileCount")
-    @Mapping(source = "entity.studyPhs", target= "studyPhs")
-    StudyPhsDto toDto(HubContentMetrics entity);
+    StudyIdDto toDto(HubContentMetrics entity);
 
-    List<StudyPhsDto> toDto(List<HubContentMetrics> entity);
+    List<StudyIdDto> toDto(List<HubContentMetrics> entity);
 }

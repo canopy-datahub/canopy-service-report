@@ -1,22 +1,20 @@
 package ex.org.project.reportservice.controller;
 
-import ex.org.project.datahub.auth.core.KeycloakAuthenticationService;
-import ex.org.project.datahub.auth.model.AccessRole;
 import ex.org.project.reportservice.model.dto.*;
+import ex.org.project.reportservice.auth.AccessRole;
+import ex.org.project.reportservice.auth.core.KeycloakAuthenticationService;
 import ex.org.project.reportservice.service.AWSStorageService;
-import ex.org.project.reportservice.service.MetricsService;
 import ex.org.project.reportservice.service.UserPopulationMetricsService;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+import ex.org.project.reportservice.service.MetricsService;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,7 +23,7 @@ public class ReportServiceController {
 	private final MetricsService metricsService;
 	private final UserPopulationMetricsService userPopulationMetricsService;
 	private final ex.org.project.reportservice.service.HarmonizationMetricsCalculator harmonizationMetricsCalculator;
-	private final KeycloakAuthenticationService authenticationService;
+  private final KeycloakAuthenticationService authenticationService;
 	private final AWSStorageService awsStorageService;
 
 	@GetMapping("/hubContentReportDates")
@@ -55,7 +53,7 @@ public class ReportServiceController {
 
 	@GetMapping("/userActivitiesCSV")
 	public void getUserActivitiesMetricsCSV(
-			@AuthenticationPrincipal Jwt jwt, HttpServletResponse response,
+      @AuthenticationPrincipal Jwt jwt, HttpServletResponse response,
 			@RequestParam(defaultValue = "country") String dimension,
 			@RequestParam(defaultValue = "30daysAgo") String startDate,
 			@RequestParam(defaultValue = "today") String endDate){
@@ -65,7 +63,7 @@ public class ReportServiceController {
 
 	@GetMapping("/download/hubContent")
 	public void exportHubContentToCSV(
-			@AuthenticationPrincipal Jwt jwt, HttpServletResponse response,
+      @AuthenticationPrincipal Jwt jwt, HttpServletResponse response,
 			@RequestParam("aggBy") String aggBy,
 			@RequestParam("reportId") Integer reportId) {
 		authenticationService.checkAuth(jwt, List.of(AccessRole.OFFICER));
@@ -84,7 +82,7 @@ public class ReportServiceController {
 
 	@GetMapping("/userMetricsCSV")
 	public void getUserPopulationMetricsCSV(
-			@AuthenticationPrincipal Jwt jwt, HttpServletResponse response,
+      @AuthenticationPrincipal Jwt jwt, HttpServletResponse response,
 			@RequestParam("aggBy") String aggBy,
 			@RequestParam("startDate") String startDate,
 			@RequestParam("endDate") String endDate) {
@@ -105,7 +103,7 @@ public class ReportServiceController {
 
 	@GetMapping("/submissionMetricsCSV")
 	public void getSubmissionActivitiesMetricsCSV(
-			@AuthenticationPrincipal Jwt jwt, HttpServletResponse response,
+      @AuthenticationPrincipal Jwt jwt, HttpServletResponse response,
 			@RequestParam("aggBy") String aggBy,
 			@RequestParam("startDate") String startDate,
 			@RequestParam("endDate") String endDate) {
@@ -131,7 +129,7 @@ public class ReportServiceController {
 
 	@GetMapping("/getHarmonizationMetricsCSV")
 	public void getHarmonizationMetricsCSV(
-			@AuthenticationPrincipal Jwt jwt, HttpServletResponse response,
+      @AuthenticationPrincipal Jwt jwt, HttpServletResponse response,
 			@RequestParam("aggBy") String aggBy,
 			@RequestParam("reportId") int reportId){
 		authenticationService.checkAuth(jwt, List.of(AccessRole.OFFICER));
@@ -148,7 +146,7 @@ public class ReportServiceController {
 	//Leaving here in case we need to manually run the job locally
 	@PostMapping("/runHarmonizationMetricsJob")
 	public ResponseEntity<Integer> runHarmonizationMetricsJob(@AuthenticationPrincipal Jwt jwt) {
-    authenticationService.checkAuth(jwt, List.of(AccessRole.OFFICER));
+		authenticationService.checkAuth(jwt, List.of(AccessRole.OFFICER));
 		Integer reportId = harmonizationMetricsCalculator.generateHarmonizationMetricsReport();
 		return ResponseEntity.ok(reportId);
 	}
@@ -156,7 +154,7 @@ public class ReportServiceController {
 	//Manual trigger for weekly file report upload
 	@PostMapping("/uploadWeeklyFileReport")
 	public ResponseEntity<String> uploadWeeklyFileReport(@AuthenticationPrincipal Jwt jwt) {
-    authenticationService.checkAuth(jwt, List.of(AccessRole.OFFICER));
+		authenticationService.checkAuth(jwt, List.of(AccessRole.OFFICER));
 		metricsService.uploadWeeklyReportToS3();
 		return ResponseEntity.ok("Weekly file report uploaded successfully");
 	}

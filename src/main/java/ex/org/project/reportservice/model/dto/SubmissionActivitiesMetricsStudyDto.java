@@ -8,11 +8,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@JsonPropertyOrder({ "PHS", "Study Name", "Center", "Data Files Submitted", "Data Files Approved", "Data Files Rejected" })
+@JsonPropertyOrder({ "Study ID", "Study Name", "Center", "Data Files Submitted", "Data Files Approved", "Data Files Rejected" })
 public class SubmissionActivitiesMetricsStudyDto extends SubmissionActivitiesMetricsDto {
-    @JsonProperty("PHS")
-    @CsvBindByName(column = "PHS")
-    protected String phs;
+    @JsonProperty("Study ID")
+    @CsvBindByName(column = "Study ID")
+    protected String studyId;
     @JsonProperty("Study Name")
     @CsvBindByName(column = "Study Name")
     protected String studyName;

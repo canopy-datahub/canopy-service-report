@@ -6,16 +6,14 @@ import com.opencsv.bean.CsvBindByName;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigInteger;
-
 @Getter
 @Setter
 public class HarmonizationMetricsDTO {
 
-    @JsonProperty("PHS")
-    @CsvBindByName(column = "PHS")
+    @JsonProperty("Study ID")
+    @CsvBindByName(column = "Study ID")
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String phs;
+    private String studyId;
 
     @JsonProperty("Study Name")
     @CsvBindByName(column = "Study Name")

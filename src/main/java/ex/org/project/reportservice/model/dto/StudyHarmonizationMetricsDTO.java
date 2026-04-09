@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@JsonPropertyOrder({ "PHS", "Study Name", "Center", "Files", "Variables", "Harmonizable Variables (Tier 1)",
+@JsonPropertyOrder({ "Study ID", "Study Name", "Center", "Files", "Variables", "Harmonizable Variables (Tier 1)",
         "Harmonized Variables (Tier 1)"})
 public class StudyHarmonizationMetricsDTO extends HarmonizationMetricsDTO {
 
