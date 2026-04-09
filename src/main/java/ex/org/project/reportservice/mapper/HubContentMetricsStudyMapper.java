@@ -1,0 +1,19 @@
+package ex.org.project.reportservice.mapper;
+
+import ex.org.project.reportservice.model.dto.StudyIdDto;
+import ex.org.project.reportservice.model.HubContentMetrics;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+
+import java.util.List;
+
+@Mapper(componentModel = "spring")
+public interface HubContentMetricsStudyMapper {
+
+    @Mapping(source = "entity.studyTitle", target = "studyName")
+    @Mapping(source = "entity.standardizedDataFileCount", target = "transformFilesCount")
+    @Mapping(source = "entity.origDataFileCount", target = "origRawFileCount")
+    StudyIdDto toDto(HubContentMetrics entity);
+
+    List<StudyIdDto> toDto(List<HubContentMetrics> entity);
+}
