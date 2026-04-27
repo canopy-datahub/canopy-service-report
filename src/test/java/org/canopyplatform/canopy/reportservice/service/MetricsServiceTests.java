@@ -115,7 +115,7 @@ class MetricsServiceTests {
         Assertions.assertNotNull(result);
         Assertions.assertEquals(2, result.aggDtos().size());
         CenterDto dto = (CenterDto) result.aggDtos().get(0);
-        Assertions.assertEquals("Center", dto.getCenter());
+        Assertions.assertEquals("DCC", dto.getCenter());
         Assertions.assertEquals(3, dto.getTotalStudies());
         Assertions.assertEquals(13, dto.getStudiesWithData());
         Assertions.assertEquals(6.0, dto.getTotalFileSize());
@@ -384,7 +384,7 @@ class MetricsServiceTests {
         MockHttpServletResponse response = new MockHttpServletResponse();
         List<CenterDto> aggDtos = new ArrayList<>();
         aggDtos.add(getDccDto());
-        String[] columnNames = {"DCC","TOTAL STUDIES",
+        String[] columnNames = {"CENTER","TOTAL STUDIES",
                 "STUDIES WITH DATA", "DATA SIZE", "ALL FILES", "DATA FILES",
                 "ORIG FILES", "TRANSFORM FILES", "META FILES", "DICTIONARY FILES",
                 "README FILES", "OTHER FILES"};
@@ -574,8 +574,8 @@ class MetricsServiceTests {
         HarmonizationMetricsResponse response1 = reportService.getHarmonizationMetrics("study", 1);
         List<String> columns = response1.columnNames();
 
-        List<String> studyColumnNames = Arrays.asList("PHS", "Study Name",
-                "DCC", "Files", "Variables", "Harmonizable Variables (Tier 1)", "Harmonized Variables (Tier 1)");
+        List<String> studyColumnNames = Arrays.asList("Study ID", "Study Name",
+                "Center", "Files", "Variables", "Harmonizable Variables (Tier 1)", "Harmonized Variables (Tier 1)");
         Assertions.assertTrue(columns.containsAll(studyColumnNames));
 
         StudyHarmonizationMetricsDTO dto = (StudyHarmonizationMetricsDTO) response1.dtos().get(0);
@@ -587,7 +587,7 @@ class MetricsServiceTests {
         Assertions.assertEquals(4, dto.getUniqueHarmonizableVariablesT1());
 
         List<String> datafileColumnNames = Arrays.asList("File Name (Orig)",
-                "File Name (Trans)", "PHS", "Study Name", "DCC", "Variables (Orig)",
+                "File Name (Trans)", "Study ID", "Study Name", "Center", "Variables (Orig)",
                 "Variables (Trans)", "Harmonizable Variables (Tier 1)", "Harmonized Variables (Tier 1)");
         List<DatafileHarmonizationMetricsDashboard> datafileList = new ArrayList<>();
         datafileList.add(getDatafileHarmonizationMetrics());
@@ -655,11 +655,9 @@ class MetricsServiceTests {
         Assertions.assertEquals("text/csv", response.getContentType());
         Assertions.assertEquals("attachment; filename=\"Study_Harmonization_Metrics.csv\"", response.getHeaderValue("Content-Disposition"));
 
-        List<String> columnNames = Arrays.asList("PHS", "STUDY NAME",
-                "DCC", "FILES", "VARIABLES COUNT", "HARMONIZABLE VARIABLES COUNT (TIER 1)", "HARMONIZED VARIABLES COUNT (TIER 1)",
-                "HARMONIZABLE VARIABLES COUNT (TIER 2)", "HARMONIZED VARIABLES COUNT (TIER 2)",
-                "TOTAL HARMONIZABLE", "TOTAL HARMONIZED", "VARIABLES", "HARMONIZABLE VARIABLES (TIER 1)",
-                "HARMONIZED VARIABLES (TIER 1)", "HARMONIZABLE VARIABLES (TIER 2)", "HARMONIZED VARIABLES (TIER 2)");
+        List<String> columnNames = Arrays.asList("STUDY ID", "STUDY NAME",
+                "CENTER", "FILES", "VARIABLES COUNT", "HARMONIZABLE VARIABLES COUNT (TIER 1)", "HARMONIZED VARIABLES COUNT (TIER 1)",
+                "VARIABLES", "HARMONIZABLE VARIABLES (TIER 1)", "HARMONIZED VARIABLES (TIER 1)");
 
 
         String responseString = "";
@@ -678,7 +676,7 @@ class MetricsServiceTests {
         responseString += "\"" + metric.getHarmonizedTier1VariableCount() + "\",";
         responseString += "\"" + metric.getVariables() + "\",";
         responseString += "\"" + metric.getHarmonizableTier1Variables() + "\",";
-        responseString += "\"" + metric.getHarmonizedTier1Variables() + "\",";
+        responseString += "\"" + metric.getHarmonizedTier1Variables() + "\"";
         Assertions.assertEquals(responseString + "\n", response.getContentAsString());
 
 
@@ -691,7 +689,7 @@ class MetricsServiceTests {
         Assertions.assertEquals("text/csv", response1.getContentType());
         Assertions.assertEquals("attachment; filename=\"Datafile_Harmonization_Metrics.csv\"", response1.getHeaderValue("Content-Disposition"));
         List<String> dataColumnNames = Arrays.asList("FILE NAME (ORIG)",
-                "FILE NAME (TRANS)", "PHS", "STUDY NAME", "DCC", "VARIABLES COUNT (ORIG)",
+                "FILE NAME (TRANS)", "STUDY ID", "STUDY NAME", "CENTER", "VARIABLES COUNT (ORIG)",
                 "VARIABLES COUNT (TRANS)", "HARMONIZABLE VARIABLES COUNT (TIER 1)", "HARMONIZED VARIABLES COUNT (TIER 1)",
                 "ORIGINAL VARIABLES", "TRANSFORM VARIABLES", "HARMONIZABLE VARIABLES (TIER 1)",
                 "HARMONIZED VARIABLES (TIER 1)");
@@ -715,7 +713,7 @@ class MetricsServiceTests {
         responseString2 += "\"" + metrics2.getOrigVariables() + "\",";
         responseString2 += "\"" + metrics2.getTransformVariables() + "\",";
         responseString2 += "\"" + metrics2.getHarmonizableTier1Variables() + "\",";
-        responseString2 += "\"" + metrics2.getHarmonizedTier1Variables() + "\",";
+        responseString2 += "\"" + metrics2.getHarmonizedTier1Variables() + "\"";
         Assertions.assertEquals(responseString2 + "\n", response1.getContentAsString());
 
         Assertions.assertThrows(BadDataException.class, () -> reportService.getHarmonizationMetricsCSV("aggby", response, 1));
@@ -727,10 +725,10 @@ class MetricsServiceTests {
         MockHttpServletResponse response1 = new MockHttpServletResponse();
         List<Map<String, Object>> dccList = getDccActivityMetrics();
         when(submissionActivityRepository.findDccActivityMetrics(any(), any())).thenReturn(dccList);
-        reportService.submissionActivitiesMetricsCSV(response1, "dcc", "2021-04-01", "2023-01-01");
+        reportService.submissionActivitiesMetricsCSV(response1, "center", "2021-04-01", "2023-01-01");
         Assertions.assertEquals("text/csv", response1.getContentType());
         Assertions.assertEquals("attachment; filename=\"Submission_Activities_Metrics.csv\"", response1.getHeaderValue("Content-Disposition"));
-        List<String> dccColumnNames = Arrays.asList("DCC", "STUDIES INITIATED",
+        List<String> dccColumnNames = Arrays.asList("CENTER", "STUDIES INITIATED",
                 "STUDIES PUBLISHED", "DATA FILES SUBMITTED", "DATA FILES APPROVED", "DATA FILES REJECTED");
         String responseString = "";
         for (String s : dccColumnNames){
@@ -751,8 +749,8 @@ class MetricsServiceTests {
         List<Map<String, Object>> studyList = getStudyActivityMetrics();
         when(submissionActivityRepository.findStudyActivityMetrics(any(), any())).thenReturn(studyList);
         reportService.submissionActivitiesMetricsCSV(response2, "study", "2021-04-01", "2023-01-01");
-        List<String> studyColumnNames = Arrays.asList("PHS", "STUDY NAME",
-                "DCC", "DATA FILES SUBMITTED", "DATA FILES APPROVED", "DATA FILES REJECTED");
+        List<String> studyColumnNames = Arrays.asList("STUDY ID", "STUDY NAME",
+                "CENTER", "DATA FILES SUBMITTED", "DATA FILES APPROVED", "DATA FILES REJECTED");
         String responseString2 = "";
         for (String s : studyColumnNames){
             responseString2 += "\"" + s + "\",";
@@ -780,7 +778,7 @@ class MetricsServiceTests {
         reportService.generateStudyByFileCSVReport(response1);
         Assertions.assertEquals("text/csv", response1.getContentType());
         Assertions.assertEquals("attachment; filename=\"" + fileName + "\"", response1.getHeaderValue("Content-Disposition"));
-        List<String> weeklyContentColumnNames = Arrays.asList("STUDY PROGRAM","STUDY PHS","STUDY TITLE","STUDY STATUS","STUDY CREATE DATE",
+        List<String> weeklyContentColumnNames = Arrays.asList("CENTER","STUDY ID","STUDY TITLE","STUDY STATUS","STUDY CREATE DATE",
                 "SUBMISSION ID","SUBMISSION CREATE DATE","SUBMISSION STATUS",
                 "FILE NAME","FILE VERSION","FILE CATEGORY","FILE CREATE DATE","FILE STATUS","FILE SIZE"
         );

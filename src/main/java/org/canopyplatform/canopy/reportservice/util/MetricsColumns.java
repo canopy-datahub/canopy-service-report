@@ -61,13 +61,12 @@ public class MetricsColumns {
                                                                                             "Harmonizable Variables (Tier 1)",
                                                                                             "Harmonized Variables (Tier 1)");
 
-    public static final List<String> WEEKLY_METRICS_COLUMN_NAMES = Arrays.asList("Center", "Study Study ID",
+    public static final List<String> WEEKLY_METRICS_COLUMN_NAMES = Arrays.asList("Center", "Study ID",
                                                                                  "Study Title", "Study Status",
                                                                                  "Study Create Date", "Submission ID",
                                                                                  "Submission Create Date",
                                                                                  "Submission Status", "File Name",
                                                                                  "File Version", "File Category",
                                                                                  "File Create Date","File Status",
-                                                                                 "File Size", "Tier-1 CDE",
-                                                                                 "Non Tier-1 CDE");
+                                                                                 "File Size");
 }
