@@ -41,7 +41,7 @@ management:
 logging:
   level:
     root: warn
-    ex.org.project.reportservice:
+    org.canopyplatform.canopy.reportservice:
       ReportServiceApplication: info
     org.springframework.web.servlet:
       DispatcherServlet: trace
