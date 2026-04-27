@@ -3,7 +3,6 @@ package org.canopyplatform.canopy.reportservice.controller;
 import org.canopyplatform.canopy.reportservice.model.dto.*;
 import org.canopyplatform.canopy.reportservice.auth.AccessRole;
 import org.canopyplatform.canopy.reportservice.auth.core.KeycloakAuthenticationService;
-import org.canopyplatform.canopy.reportservice.model.dto.*;
 import org.canopyplatform.canopy.reportservice.service.AWSStorageService;
 import org.canopyplatform.canopy.reportservice.service.HarmonizationMetricsCalculator;
 import org.canopyplatform.canopy.reportservice.service.UserPopulationMetricsService;

@@ -13,7 +13,7 @@ public interface HubContentMetricsRepository extends JpaRepository<HubContentMet
 
     List<HubContentMetrics> findByStudyStatusAndHasDataFileAndReportId(String studyStatus, Boolean hasDataFile, Integer reportId);
 
-    @Query("SELECT new model.org.canopyplatform.canopy.reportservice.HubContentMetrics(hcm.center, hcm.studyId, CAST(COUNT (hcm.studyId) as integer),SUM(hcm.totalFileSize),"  +
+    @Query("SELECT new org.canopyplatform.canopy.reportservice.model.HubContentMetrics(hcm.center, hcm.studyId, CAST(COUNT (hcm.studyId) as integer),SUM(hcm.totalFileSize),"  +
             " CAST(SUM(hcm.totalFileCount) as integer),CAST(SUM(hcm.dataFileCount)as integer), CAST(SUM(hcm.origDataFileCount)as integer)," +
             "CAST(SUM(hcm.standardizedDataFileCount)as integer),CAST(SUM(hcm.metadataFileCount)as integer), CAST(SUM(hcm.dictionaryFileCount)as integer), " +
             "CAST(SUM(hcm.readmeFileCount)as integer),CAST(SUM(hcm.otherFileCount)as integer) ,CAST(COUNT(case when hcm.hasDataFile then 1 end)as integer)) " +

@@ -1,7 +1,6 @@
 package org.canopyplatform.canopy.reportservice.service;
 
 import org.canopyplatform.canopy.reportservice.model.populationMetrics.*;
-import org.canopyplatform.canopy.reportservice.model.populationMetrics.*;
 import org.canopyplatform.canopy.reportservice.repositories.UserLoginRepository;
 import org.canopyplatform.canopy.reportservice.repositories.ViewUserPopulationRepository;
 import org.canopyplatform.canopy.reportservice.model.ViewUserPopulation;

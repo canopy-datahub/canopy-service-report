@@ -3,7 +3,6 @@ package org.canopyplatform.canopy.reportservice.auth.core;
 import org.canopyplatform.canopy.reportservice.auth.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.canopyplatform.canopy.reportservice.auth.*;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 

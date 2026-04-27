@@ -4,8 +4,6 @@ import org.canopyplatform.canopy.reportservice.mapper.UserPopulationMapper;
 import org.canopyplatform.canopy.reportservice.model.ViewUserPopulation;
 import org.canopyplatform.canopy.reportservice.model.dto.*;
 import org.canopyplatform.canopy.reportservice.model.populationMetrics.*;
-import org.canopyplatform.canopy.reportservice.model.dto.*;
-import org.canopyplatform.canopy.reportservice.model.populationMetrics.*;
 import org.canopyplatform.canopy.reportservice.repositories.UserLoginRepository;
 import org.canopyplatform.canopy.reportservice.repositories.ViewUserPopulationRepository;
 import org.junit.jupiter.api.Assertions;

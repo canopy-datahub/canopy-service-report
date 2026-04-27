@@ -19,10 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.canopyplatform.canopy.reportservice.mapper.*;
-import org.canopyplatform.canopy.reportservice.model.*;
-import org.canopyplatform.canopy.reportservice.model.dto.*;
-import org.canopyplatform.canopy.reportservice.repositories.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;

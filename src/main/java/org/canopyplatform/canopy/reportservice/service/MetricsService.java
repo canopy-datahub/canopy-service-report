@@ -18,10 +18,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.comparators.FixedOrderComparator;
-import org.canopyplatform.canopy.reportservice.mapper.*;
-import org.canopyplatform.canopy.reportservice.model.*;
-import org.canopyplatform.canopy.reportservice.model.dto.*;
-import org.canopyplatform.canopy.reportservice.repositories.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
