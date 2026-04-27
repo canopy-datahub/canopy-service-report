@@ -6,7 +6,6 @@ import org.canopyplatform.canopy.reportservice.repositories.*;
 import org.canopyplatform.canopy.reportservice.mapper.DataFileInputMapper;
 import org.canopyplatform.canopy.reportservice.model.DataFileInputEntity;
 import org.canopyplatform.canopy.reportservice.model.DatafileHarmonizationMetrics;
-import org.canopyplatform.canopy.reportservice.model.MetricsReport;
 import org.canopyplatform.canopy.reportservice.model.MetricsReportType;
 import org.canopyplatform.canopy.reportservice.model.StudyHarmonizationMetrics;
 import lombok.AllArgsConstructor;
@@ -66,7 +65,7 @@ public class HarmonizationMetricsCalculator {
     private Integer createNewMetricsReportEntity(MetricsReport metricsReport) {
         MetricsReportType reportType = metricsReportTypeRepository.findByName("harmonization")
                 .orElseThrow(() -> new HarmonizationReportException("Could not find harmonization report type"));
-        var metricsReportEntity = new MetricsReport();
+        var metricsReportEntity = new org.canopyplatform.canopy.reportservice.model.MetricsReport();
         metricsReportEntity.setReportDate(metricsReport.date());
         metricsReportEntity.setType(reportType);
         metricsReportEntity = metricsReportRepository.save(metricsReportEntity);
