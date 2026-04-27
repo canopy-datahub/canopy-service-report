@@ -56,13 +56,6 @@ google-analytics:
     - screenPageViews
     - sessions
 
-# RAS configuration
-ras:
-  url: ${rasurl}
-  client:
-    id: ${rasclientid}
-    secret: ${rasclientsecret}
-
 ---
 # LOCAL
 
