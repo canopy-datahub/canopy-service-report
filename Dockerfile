@@ -1,5 +1,5 @@
 FROM amazoncorretto:17-alpine
-EXPOSE 8080
+EXPOSE 8084
 
 ARG CERT
 ARG JAR_FILE=target/canopy-service-report-0.0.2-SNAPSHOT.jar
