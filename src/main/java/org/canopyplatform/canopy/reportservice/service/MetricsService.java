@@ -541,7 +541,7 @@ public class MetricsService {
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         String currentDateTime = dateFormatter.format(new Date());
         List<StudyByFileReport> studyByFileReportContent = weeklyHubContentRepository.findAllByOrderByCenterAsc();
-        String fileName = currentDateTime + "-DataHub-Weekly-Metrics.csv";
+        String fileName = currentDateTime + "-Canopy-Weekly-Metrics.csv";
         String[] columnNames = WEEKLY_METRICS_COLUMN_NAMES.stream().map(String::toUpperCase).toArray(String[]::new);
 
         try {

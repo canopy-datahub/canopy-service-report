@@ -774,7 +774,7 @@ class MetricsServiceTests {
         when(weeklyHubContentRepository.findAllByOrderByCenterAsc()).thenReturn(studyList);
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         String currentDateTime = dateFormatter.format(new Date());
-        String fileName = currentDateTime + "-DataHub-Weekly-Metrics.csv";
+        String fileName = currentDateTime + "-Canopy-Weekly-Metrics.csv";
         reportService.generateStudyByFileCSVReport(response1);
         Assertions.assertEquals("text/csv", response1.getContentType());
         Assertions.assertEquals("attachment; filename=\"" + fileName + "\"", response1.getHeaderValue("Content-Disposition"));
