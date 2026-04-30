@@ -13,7 +13,7 @@ import static org.canopyplatform.canopy.reportservice.model.populationMetrics.Us
 public class UserMetricsByProfit extends UserPopulationMetrics {
 
     //if columns need changed, also change in the dto object
-    private final List<String> columns = List.of(INSTITUTION_PROFIT, REGISTERED_USERS, ACTIVE_USERS,WORKSPACE_COUNT);
+    private final List<String> columns = List.of(INSTITUTION_PROFIT, REGISTERED_USERS, ACTIVE_USERS);
     private final List<UserMetricsProfitDto> aggregations;
     private static final Class<UserMetricsProfitDto> dtoClass = UserMetricsProfitDto.class;
 
@@ -62,7 +62,6 @@ public class UserMetricsByProfit extends UserPopulationMetrics {
                     dto.setProfitNotForProfit(user.getForProfit());
                     dto.setRegisteredUsers(0);
                     dto.setActiveUsers(0);
-                    dto.setWorkspaceCount(0);
                     updateListFlag = true;
                 }
             }
@@ -71,7 +70,6 @@ public class UserMetricsByProfit extends UserPopulationMetrics {
                 dto.setProfitNotForProfit(user.getForProfit());
                 dto.setRegisteredUsers(0);
                 dto.setActiveUsers(0);
-                dto.setWorkspaceCount(0);
                 updateListFlag = true;
             }
 

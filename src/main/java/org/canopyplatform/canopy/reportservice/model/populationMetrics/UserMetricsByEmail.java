@@ -13,7 +13,7 @@ import static org.canopyplatform.canopy.reportservice.model.populationMetrics.Us
 public class UserMetricsByEmail extends UserPopulationMetrics {
 
     //if columns need changed, also change in the dto object
-    private final List<String> columns = List.of(NAME, EMAIL, ORCID_ID, JOB_TITLE, INSTITUTION, INSTITUTION_TYPE, USER_LOCATION_STATE, USER_LOCATION_COUNTRY, USER_LEVEL, CREATED_AT, LAST_LOGIN, TOTAL_LOGIN, INTERNAL_USER, DOWNLOADED_DATA, HAS_WORKBENCH, WORKSPACE_COUNT);
+    private final List<String> columns = List.of(NAME, EMAIL, ORCID_ID, JOB_TITLE, INSTITUTION, INSTITUTION_TYPE, USER_LOCATION_STATE, USER_LOCATION_COUNTRY, USER_LEVEL, CREATED_AT, LAST_LOGIN, TOTAL_LOGIN, INTERNAL_USER, DOWNLOADED_DATA);
     private final List<UserMetricsEmailDto> aggregations;
     private static final Class<UserMetricsEmailDto> dtoClass = UserMetricsEmailDto.class;
     private final UserPopulationMapper userPopulationMapper = new UserPopulationMapperImpl();

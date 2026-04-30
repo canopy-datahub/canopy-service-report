@@ -66,14 +66,8 @@ public class ViewUserPopulation {
     @Column(name = "internal_user")
     private Boolean internalUser;
 
-    @Column(name = "has_workbench")
-    private Boolean hasWorkbench;
-
     @Column(name = "has_downloaded_data")
     private Boolean downloadedData;
-
-    @Column(name = "workspace_count")
-    private Integer workspaceCount;
 
     public String getForProfit(){
         if (isForProfit){

@@ -70,14 +70,6 @@ public class UserMetricsEmailDto extends UserMetricsDto {
     @CsvBindByName(column = INTERNAL_USER)
     protected String internalUser;
 
-    @JsonProperty(HAS_WORKBENCH)
-    @CsvBindByName(column = HAS_WORKBENCH)
-    protected String hasWorkbench;
-
-    @JsonProperty(WORKSPACE_COUNT)
-    @CsvBindByName(column = WORKSPACE_COUNT)
-    protected Integer workspaceCount;
-
     @JsonProperty(DOWNLOADED_DATA)
     @CsvBindByName(column = DOWNLOADED_DATA)
     protected String downloadedData;

@@ -20,8 +20,6 @@ public interface UserPopulationMapper {
     @Mapping(source = "lastLogin", target = "lastLogin", qualifiedByName ="stringMapper")
     @Mapping(source = "userResearchLevel", target = "userResearcherLevel")
     @Mapping(source = "internalUser", target = "internalUser", qualifiedByName ="stringMapper")
-    @Mapping(source = "hasWorkbench", target = "hasWorkbench", qualifiedByName ="stringMapper")
-    @Mapping(source = "workspaceCount", target = "workspaceCount")
     @Mapping(source = "downloadedData", target = "downloadedData", qualifiedByName ="stringMapper")
     UserMetricsEmailDto toDTO(ViewUserPopulation viewUserPopulation);
 

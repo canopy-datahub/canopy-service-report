@@ -20,6 +20,4 @@ public interface UserPopulationMetricsColumns {
     String TOTAL_LOGIN = "Total Logins";
     String INTERNAL_USER = "Internal User?";
     String DOWNLOADED_DATA = "Downloaded Data?";
-    String HAS_WORKBENCH = "Has Workbench?";
-    String WORKSPACE_COUNT = "Workspace Count";
 }

@@ -12,7 +12,7 @@ import static org.canopyplatform.canopy.reportservice.model.populationMetrics.Us
 public class UserMetricsByInstitutionType extends UserPopulationMetrics {
 
     //if columns need changed, also change in the dto object
-    private final List<String> columns = List.of(INSTITUTION_TYPE, REGISTERED_USERS, ACTIVE_USERS,WORKSPACE_COUNT);
+    private final List<String> columns = List.of(INSTITUTION_TYPE, REGISTERED_USERS, ACTIVE_USERS);
     private final List<UserMetricsTypeDto> aggregations;
     private static final Class<UserMetricsTypeDto> dtoClass = UserMetricsTypeDto.class;
 
@@ -60,7 +60,6 @@ public class UserMetricsByInstitutionType extends UserPopulationMetrics {
                     dto.setInstitutionType(user.getInstitutionType());
                     dto.setRegisteredUsers(0);
                     dto.setActiveUsers(0);
-                    dto.setWorkspaceCount(0);
                     updateListFlag = true;
                 }
             }
@@ -69,7 +68,6 @@ public class UserMetricsByInstitutionType extends UserPopulationMetrics {
                 dto.setInstitutionType(user.getInstitutionType());
                 dto.setRegisteredUsers(0);
                 dto.setActiveUsers(0);
-                dto.setWorkspaceCount(0);
                 updateListFlag = true;
             }
 

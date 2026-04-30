@@ -36,17 +36,12 @@ public abstract class UserPopulationMetrics {
             //User was registered during the time period, increment both
             dto.setRegisteredUsers(dto.getRegisteredUsers() + 1);
             dto.setActiveUsers(dto.getActiveUsers() + 1);
-            if (user.getWorkspaceCount() != null) {
-                dto.setWorkspaceCount(dto.getWorkspaceCount() + user.getWorkspaceCount());
-            }
         }
         else {
             //User was not registered, check if they were active, and increment active users if they were
             if(userLoginIds.contains(user.getId())) {
                 dto.setActiveUsers(dto.getActiveUsers() + 1);
-                if (user.getWorkspaceCount() != null) {
-                    dto.setWorkspaceCount(dto.getWorkspaceCount() + user.getWorkspaceCount());
-                }            }
+            }
         }
     }
 

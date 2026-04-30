@@ -16,7 +16,4 @@ public class UserMetricsAggregatesDto extends UserMetricsDto {
     @JsonProperty(ACTIVE_USERS)
     @CsvBindByName(column = ACTIVE_USERS)
     protected Integer activeUsers;
-    @JsonProperty(WORKSPACE_COUNT)
-    @CsvBindByName(column = WORKSPACE_COUNT)
-    protected Integer workspaceCount;
 }
