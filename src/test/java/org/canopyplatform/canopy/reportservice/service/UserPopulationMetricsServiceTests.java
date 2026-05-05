@@ -84,14 +84,12 @@ class UserPopulationMetricsServiceTests {
         userPopulation.setId(1);
         userPopulation.setInstitutionType("TestInstitutionType");
         userPopulation.setCreatedAt(LocalDateTime.of(2022, 01, 01, 0, 0));
-        userPopulation.setWorkspaceCount(1);
         List<ViewUserPopulation> institutionTypeList = List.of(userPopulation);
         List<Integer> userLoginIds = List.of(1);
         UserMetricsTypeDto dto = new UserMetricsTypeDto();
         dto.setActiveUsers(1);
         dto.setRegisteredUsers(1);
         dto.setInstitutionType("TestInstitutionType");
-        dto.setWorkspaceCount(1);
 
         when(viewUserPopulationRepository.findByCreatedAtLessThan(Mockito.any()))
                 .thenReturn(institutionTypeList);
@@ -142,14 +140,12 @@ class UserPopulationMetricsServiceTests {
         userPopulation.setId(1);
         userPopulation.setCountry("United States");
         userPopulation.setCreatedAt(LocalDateTime.of(2022, 01, 01, 0, 0));
-        userPopulation.setWorkspaceCount(1);
         List<ViewUserPopulation> institutionLocationList = List.of(userPopulation);
         List<Integer> userLoginIds = List.of(1);
         UserMetricsLocationDto dto = new UserMetricsLocationDto();
         dto.setActiveUsers(1);
         dto.setRegisteredUsers(1);
         dto.setInstitutionLocation("United States");
-        dto.setWorkspaceCount(1);
 
         when(viewUserPopulationRepository.findByCreatedAtLessThan(Mockito.any()))
                 .thenReturn(institutionLocationList);
@@ -202,14 +198,12 @@ class UserPopulationMetricsServiceTests {
         userPopulation.setId(1);
         userPopulation.setIsForProfit(true);
         userPopulation.setCreatedAt(LocalDateTime.of(2022, 01, 01, 0, 0));
-        userPopulation.setWorkspaceCount(1);
         List<ViewUserPopulation> institutionLocationList = List.of(userPopulation);
         List<Integer> userLoginIds = List.of(1);
         UserMetricsProfitDto dto = new UserMetricsProfitDto();
         dto.setActiveUsers(1);
         dto.setRegisteredUsers(1);
         dto.setProfitNotForProfit("Profit");
-        dto.setWorkspaceCount(1);
 
         when(viewUserPopulationRepository.findByCreatedAtLessThan(Mockito.any()))
                 .thenReturn(institutionLocationList);
@@ -262,14 +256,12 @@ class UserPopulationMetricsServiceTests {
         userPopulation.setId(1);
         userPopulation.setUserResearchLevel("Grandmaster");
         userPopulation.setCreatedAt(LocalDateTime.of(2022, 01, 01, 0, 0));
-        userPopulation.setWorkspaceCount(1);
         List<ViewUserPopulation> institutionLocationList = List.of(userPopulation);
         List<Integer> userLoginIds = List.of(1);
         UserMetricsLevelDto dto = new UserMetricsLevelDto();
         dto.setActiveUsers(1);
         dto.setRegisteredUsers(1);
         dto.setUserResearcherLevel("Grandmaster");
-        dto.setWorkspaceCount(1);
 
         when(viewUserPopulationRepository.findByCreatedAtLessThan(Mockito.any()))
                 .thenReturn(institutionLocationList);
@@ -298,7 +290,6 @@ class UserPopulationMetricsServiceTests {
         userPopulation.setState("VA");
         userPopulation.setCountry("United States");
         userPopulation.setDownloadedData(true);
-        userPopulation.setHasWorkbench(true);
         userPopulation.setInternalUser(true);
         userPopulation.setJobTitle("researcher");
         userPopulation.setTotalLogin(5);
@@ -315,7 +306,7 @@ class UserPopulationMetricsServiceTests {
         UserMetricsResponse result = userPopulationMetricsService.getUserMetricsByAggregate("email", "2021-12-01", "2023-12-31");
 
         List<String> columnList = result.columnNames();
-        List<String> expectedColumns = List.of(NAME, EMAIL, ORCID_ID, JOB_TITLE, INSTITUTION, INSTITUTION_TYPE, USER_LOCATION_STATE, USER_LOCATION_COUNTRY, USER_LEVEL, CREATED_AT, LAST_LOGIN, TOTAL_LOGIN, INTERNAL_USER, DOWNLOADED_DATA, HAS_WORKBENCH);
+        List<String> expectedColumns = List.of(NAME, EMAIL, ORCID_ID, JOB_TITLE, INSTITUTION, INSTITUTION_TYPE, USER_LOCATION_STATE, USER_LOCATION_COUNTRY, USER_LEVEL, CREATED_AT, LAST_LOGIN, TOTAL_LOGIN, INTERNAL_USER, DOWNLOADED_DATA);
         for(var column : expectedColumns) {
             Assertions.assertTrue(columnList.contains(column));
         }
@@ -334,7 +325,6 @@ class UserPopulationMetricsServiceTests {
         Assertions.assertEquals(dto.getTotalLogin(), resultList.get(0).getTotalLogin());
         Assertions.assertEquals(dto.getInternalUser(), resultList.get(0).getInternalUser());
         Assertions.assertEquals(dto.getDownloadedData(), resultList.get(0).getDownloadedData());
-        Assertions.assertEquals(dto.getHasWorkbench(), resultList.get(0).getHasWorkbench());
     }
 
     @Test
@@ -354,9 +344,7 @@ class UserPopulationMetricsServiceTests {
         userPopulation.setOrcidId("0000-0001-9593-8074");
         userPopulation.setTotalLogin(5);
         userPopulation.setDownloadedData(true);
-        userPopulation.setHasWorkbench(true);
         userPopulation.setInternalUser(true);
-        userPopulation.setWorkspaceCount(2);
         userPopulation.setLastLogin(LocalDateTime.of(2022, 01, 15, 0, 0));
         List<ViewUserPopulation> userPopulationList = List.of(userPopulation);
         List<Integer> userLoginIds = List.of(1);
