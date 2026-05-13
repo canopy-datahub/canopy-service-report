@@ -1,7 +1,6 @@
 package org.canopyplatform.canopy.reportservice.controller;
 
 import org.canopyplatform.canopy.reportservice.model.dto.*;
-import org.canopyplatform.canopy.reportservice.auth.AccessRole;
 import org.canopyplatform.canopy.reportservice.auth.core.KeycloakAuthenticationService;
 import org.canopyplatform.canopy.reportservice.service.AWSStorageService;
 import org.canopyplatform.canopy.reportservice.service.HarmonizationMetricsCalculator;
@@ -29,7 +28,7 @@ public class ReportServiceController {
 
 	@GetMapping("/hubContentReportDates")
 	public ResponseEntity<List<ReportYearDTO>> getHubContentReportDates(@AuthenticationPrincipal Jwt jwt) {
-		authenticationService.checkAuth(jwt, List.of(AccessRole.OFFICER));
+		authenticationService.checkCapability(jwt, "metrics.hub-content.view");
 		return ResponseEntity.ok(metricsService.getHubContentWeeklyReportOptions());
 	}
 
@@ -38,7 +37,7 @@ public class ReportServiceController {
 			@AuthenticationPrincipal Jwt jwt,
 			@RequestParam("aggBy") String aggBy,
 			@RequestParam("reportId") Integer reportId) {
-		authenticationService.checkAuth(jwt, List.of(AccessRole.OFFICER));
+		authenticationService.checkCapability(jwt, "metrics.hub-content.view");
 		return ResponseEntity.ok(metricsService.createReport(aggBy, reportId));
 	}
 
@@ -48,7 +47,7 @@ public class ReportServiceController {
 			@RequestParam(defaultValue = "country") String dimension,
 			@RequestParam(defaultValue = "30daysAgo") String startDate,
 			@RequestParam(defaultValue = "today") String endDate) {
-		authenticationService.checkAuth(jwt, List.of(AccessRole.OFFICER));
+		authenticationService.checkCapability(jwt, "metrics.user-activity.view");
 		return ResponseEntity.ok(metricsService.getUserActivitiesMetrics(dimension, startDate, endDate));
 	}
 
@@ -58,7 +57,7 @@ public class ReportServiceController {
 			@RequestParam(defaultValue = "country") String dimension,
 			@RequestParam(defaultValue = "30daysAgo") String startDate,
 			@RequestParam(defaultValue = "today") String endDate){
-		authenticationService.checkAuth(jwt, List.of(AccessRole.OFFICER));
+		authenticationService.checkCapability(jwt, "metrics.user-activity.export");
 		metricsService.getUserActivitiesMetricsCSV(response, dimension, startDate, endDate);
 	}
 
@@ -67,7 +66,7 @@ public class ReportServiceController {
       @AuthenticationPrincipal Jwt jwt, HttpServletResponse response,
 			@RequestParam("aggBy") String aggBy,
 			@RequestParam("reportId") Integer reportId) {
-		authenticationService.checkAuth(jwt, List.of(AccessRole.OFFICER));
+		authenticationService.checkCapability(jwt, "metrics.hub-content.export");
 		metricsService.getHubContentReport(response, aggBy, reportId);
 	}
 
@@ -77,7 +76,7 @@ public class ReportServiceController {
             @RequestParam("aggBy") String aggBy,
             @RequestParam("startDate") String startDate,
             @RequestParam("endDate") String endDate) {
-		authenticationService.checkAuth(jwt, List.of(AccessRole.OFFICER));
+		authenticationService.checkCapability(jwt, "metrics.user-population.view");
         return ResponseEntity.ok(userPopulationMetricsService.getUserMetricsByAggregate(aggBy, startDate, endDate));
     }
 
@@ -87,7 +86,7 @@ public class ReportServiceController {
 			@RequestParam("aggBy") String aggBy,
 			@RequestParam("startDate") String startDate,
 			@RequestParam("endDate") String endDate) {
-		authenticationService.checkAuth(jwt, List.of(AccessRole.OFFICER));
+		authenticationService.checkCapability(jwt, "metrics.user-population.export");
 		userPopulationMetricsService.getUserPopulationMetricsCSV(response, aggBy, startDate, endDate);
 	}
 
@@ -98,7 +97,7 @@ public class ReportServiceController {
 			@RequestParam("aggBy") String aggBy,
 			@RequestParam("startDate") String startDate,
 			@RequestParam("endDate") String endDate){
-		authenticationService.checkAuth(jwt, List.of(AccessRole.OFFICER));
+		authenticationService.checkCapability(jwt, "metrics.submission-activity.view");
 		return ResponseEntity.ok(metricsService.submissionActivitiesMetrics(aggBy, startDate, endDate));
 	}
 
@@ -108,13 +107,13 @@ public class ReportServiceController {
 			@RequestParam("aggBy") String aggBy,
 			@RequestParam("startDate") String startDate,
 			@RequestParam("endDate") String endDate) {
-		authenticationService.checkAuth(jwt, List.of(AccessRole.OFFICER));
+		authenticationService.checkCapability(jwt, "metrics.submission-activity.export");
 		metricsService.submissionActivitiesMetricsCSV(response, aggBy, startDate, endDate);
 	}
 
 	@GetMapping("/getDataHarmonizationReportIds")
 	public ResponseEntity<List<ReportYearDTO>> getHarmonizationReportIds(@AuthenticationPrincipal Jwt jwt) {
-		authenticationService.checkAuth(jwt, List.of(AccessRole.OFFICER));
+		authenticationService.checkCapability(jwt, "metrics.harmonization.view");
 		return ResponseEntity.ok(metricsService.getDataHarmonizationReportIds());
 	}
 
@@ -123,7 +122,7 @@ public class ReportServiceController {
 			@AuthenticationPrincipal Jwt jwt,
 			@RequestParam("aggBy") String aggBy,
 			@RequestParam("reportId") int reportId){
-		authenticationService.checkAuth(jwt, List.of(AccessRole.OFFICER));
+		authenticationService.checkCapability(jwt, "metrics.harmonization.view");
 		return ResponseEntity.ok(metricsService.getHarmonizationMetrics(aggBy, reportId));
 	}
 
@@ -133,13 +132,13 @@ public class ReportServiceController {
       @AuthenticationPrincipal Jwt jwt, HttpServletResponse response,
 			@RequestParam("aggBy") String aggBy,
 			@RequestParam("reportId") int reportId){
-		authenticationService.checkAuth(jwt, List.of(AccessRole.OFFICER));
+		authenticationService.checkCapability(jwt, "metrics.harmonization.export");
 		metricsService.getHarmonizationMetricsCSV(aggBy, response, reportId);
 	}
 
 	@GetMapping("/download/getWeeklyStudyByFileReport")
 	public ResponseEntity<Object> getWeeklyStudyByFileReport(@AuthenticationPrincipal Jwt jwt) {
-		authenticationService.checkAuth(jwt, List.of(AccessRole.DATA_CURATOR));
+		authenticationService.checkCapability(jwt, "report.weekly-study.download");
 		return awsStorageService.downloadWeeklyFileReport();
 	}
 
@@ -147,7 +146,7 @@ public class ReportServiceController {
 	//Leaving here in case we need to manually run the job locally
 	@PostMapping("/runHarmonizationMetricsJob")
 	public ResponseEntity<Integer> runHarmonizationMetricsJob(@AuthenticationPrincipal Jwt jwt) {
-		authenticationService.checkAuth(jwt, List.of(AccessRole.OFFICER));
+		authenticationService.checkCapability(jwt, "metrics.harmonization.run");
 		Integer reportId = harmonizationMetricsCalculator.generateHarmonizationMetricsReport();
 		return ResponseEntity.ok(reportId);
 	}
@@ -155,7 +154,7 @@ public class ReportServiceController {
 	//Manual trigger for weekly file report upload
 	@PostMapping("/uploadWeeklyFileReport")
 	public ResponseEntity<String> uploadWeeklyFileReport(@AuthenticationPrincipal Jwt jwt) {
-		authenticationService.checkAuth(jwt, List.of(AccessRole.OFFICER));
+		authenticationService.checkCapability(jwt, "metrics.weekly-report.upload");
 		metricsService.uploadWeeklyReportToS3();
 		return ResponseEntity.ok("Weekly file report uploaded successfully");
 	}
